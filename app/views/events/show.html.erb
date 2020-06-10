@@ -1,0 +1,577 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/events">Events</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current=""><%= @event.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+  
+<% if current_user.present? %>
+  <% if current_user.has_role? :organizer or current_user.has_role? :event_speaker, Event.find(@event.id) %>
+    <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col">
+            <ol class="breadcrumb breadcrumb-links">
+              <% if current_user.has_role? :organizer %>
+                <%= link_to 'Edit', edit_event_path(@event) %>
+                <%= link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' } %>
+                <a href='/talks/new?event=<%= @event.id %>'>Add session</a> 
+                <!--<a href='/users/speakers?event=<%= @event.id %>'>Add speakers</a>-->
+              <% elsif current_user.has_role? :event_speaker, Event.find(@event.id) %>
+                <a href='/talks/new?event=<%= @event.id %>'>Add talk</a> 
+              <% end %>
+            </ol>
+          </div>
+          <!--end of col-->
+        </div>
+        <!--end of row-->
+      </div>
+      <!--end of container-->
+    </nav>
+  <% end %>
+<% end %>
+
+<section class="bg-white space-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7 mb-4 mb-sm-0">
+
+        <% if @event.video.present? %>
+          <div class="video-cover">
+            <%= image_tag(@event.image, class: "bg-image") %>
+            <div class="video-play-icon">
+              <i class="icon-controller-play"></i>
+            </div>
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" data-src="<%= @event.video %>" allowfullscreen></iframe>
+            </div>
+          </div>
+        <% else %>
+          <% if @event.image.attached? %>
+            <%= image_tag(@event.image, class: "rounded img-fluid") %>
+          <% end %>
+        <% end %>
+        
+      </div>
+      <!--end of col-->
+      <div class="col-lg-4 d-flex flex-column justify-content-between mr-auto ml-auto">
+        <div>
+          <h1 class="mb-2"><%= @event.title %></h1>
+          <h2 class="lead mb-3"><%= @event.summary %></h2>
+          <% if @event.category_id.present? %>
+          <div>
+            <span class="badge badge-secondary mr-3"><%= @event.category.name %></span>
+          </div>
+          <% end %>
+          <!--<div>-->
+          <!--  <ul class="list-inline text-small d-inline-block mb-3">-->
+          <!--    <li class="list-inline-item"><i class="icon-thumbs-up"></i> 214</li>-->
+          <!--    <li class="list-inline-item"><i class="icon-message"></i> 6</li>-->
+          <!--  </ul>-->
+          <!--</div>-->
+        </div>
+        <!--<div>-->
+        <!--  <div class="btn-group mb-2">-->
+        <!--    <button type="button" class="btn btn-success btn-lg">Download</button>-->
+        <!--    <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split dropdown-toggle-no-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+        <!--      <i class="icon-dots-three-horizontal"></i>-->
+        <!--      <span class="sr-only">Toggle Dropdown</span>-->
+        <!--    </button>-->
+        <!--    <div class="dropdown-menu dropdown-menu-right dropdown-menu-sm">-->
+        <!--      <a class="dropdown-item" href="#">Action</a>-->
+        <!--      <a class="dropdown-item" href="#">Another action</a>-->
+        <!--      <a class="dropdown-item" href="#">Something else here</a>-->
+        <!--      <div class="dropdown-divider"></div>-->
+        <!--      <a class="dropdown-item" href="#">Separated link</a>-->
+        <!--    </div>-->
+        <!--  </div>-->
+        <!--  <div class="text-small">-->
+        <!--    <span class="text-muted">&copy; Kin Technology 2017</span>-->
+        <!--  </div>-->
+        <!--</div>-->
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+<section class="space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-8 col-lg-7">
+        <h5 class="mb-4">Overview</h5>
+        <article>
+          <%= markdown(@event.content) %>
+        </article>
+        <hr>
+        <!--<h5 class="mb-4">Discussion</h5>-->
+        <!--<div class="card">-->
+        <!--  <div class="card-header bg-secondary d-flex justify-content-between">-->
+        <!--    <button class="btn btn-secondary" type="button" data-target="#comment-reply" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Post a reply</button>-->
+        <!--    <form class="d-flex align-items-center">-->
+        <!--      <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+        <!--      <select class="custom-select">-->
+        <!--        <option value="alpha">Alphabetical</option>-->
+        <!--        <option value="old-new" selected>Newest</option>-->
+        <!--        <option value="new-old">Popular</option>-->
+        <!--        <option value="recent">Recently Updated</option>-->
+        <!--      </select>-->
+        <!--    </form>-->
+        <!--  </div>-->
+        <!--  <div class="collapse" id="comment-reply">-->
+        <!--    <form class="card-body">-->
+        <!--      <div class="form-group">-->
+        <!--        <textarea class="form-control from-control-lg" id="comment-reply-text" name="comment-reply" rows="4" placeholder="Type your reply here"></textarea>-->
+        <!--      </div>-->
+        <!--      <div class="mb-2">-->
+        <!--        <div class="custom-control custom-checkbox">-->
+        <!--          <input type="checkbox" class="custom-control-input" name="notify-reply" id="check-notify">-->
+        <!--          <label class="custom-control-label text-small" for="check-notify">Notify me when someone replies</label>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <!--      <div class="d-flex align-items-center">-->
+        <!--        <button type="submit" class="btn btn-success mr-3">Submit reply</button>-->
+        <!--        <a href="#comment-reply" class="text-small text-muted" data-toggle="collapse" aria-expanded="true" aria-controls="comment-reply">Cancel</a>-->
+        <!--      </div>-->
+        <!--    </form>-->
+        <!--  </div>-->
+        <!--  <ul class="list-group list-group-flush list-group-comments">-->
+
+        <!--    <li class="list-group-item py-4">-->
+        <!--      <div class="media">-->
+        <!--        <img alt="Image" src="/img/avatar-female-2.jpg" class="avatar avatar-sm" />-->
+        <!--        <div class="media-body">-->
+        <!--          <div class="mb-2">-->
+        <!--            <span class="h6 mb-0">Kelly Fraiser</span>-->
+        <!--            <span class="text-muted">Making awesome products</span>-->
+        <!--          </div>-->
+        <!--          <p>-->
+        <!--            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.-->
+        <!--          </p>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <div class="mr-2">-->
+        <!--              <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+        <!--              <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>&nbsp;(2)</button>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+
+        <!--    </li>-->
+
+        <!--    <li class="list-group-item py-4">-->
+        <!--      <div class="media">-->
+        <!--        <img alt="Image" src="/img/avatar-male-6.jpg" class="avatar avatar-sm" />-->
+        <!--        <div class="media-body">-->
+        <!--          <div class="mb-2">-->
+        <!--            <span class="h6 mb-0">Tim Lester</span>-->
+        <!--            <span class="text-muted">Interface Designer @ Squanch</span>-->
+        <!--          </div>-->
+        <!--          <p>-->
+        <!--            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.-->
+        <!--          </p>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <div class="mr-2">-->
+        <!--              <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+        <!--              <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>-->
+        <!--              </button>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+
+        <!--      <div class="media">-->
+        <!--        <img alt="Image" src="/img/avatar-female-5.jpg" class="avatar avatar-sm" />-->
+        <!--        <div class="media-body">-->
+        <!--          <div class="mb-2">-->
+        <!--            <span class="h6 mb-0">Carly Pemberton</span>-->
+        <!--            <span class="text-muted">Freelance Product Engineer</span>-->
+        <!--          </div>-->
+        <!--          <p>-->
+        <!--            Omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus-->
+        <!--          </p>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <div class="mr-2">-->
+        <!--              <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+        <!--              <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>(4)</button>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+
+        <!--      <div class="media">-->
+        <!--        <img alt="Image" src="/img/graphic-product-paydar-thumb.jpg" class="avatar avatar-sm" />-->
+        <!--        <div class="media-body">-->
+        <!--          <div class="mb-2">-->
+        <!--            <span class="h6 mb-0">Luke Carol</span>-->
+        <!--            <span class="text-muted">Product Designer</span>-->
+        <!--          </div>-->
+        <!--          <p>-->
+        <!--            Adipisci velit, sed quia non numquam eius modi tempora-->
+        <!--          </p>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <div class="mr-2">-->
+        <!--              <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+        <!--              <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>-->
+        <!--              </button>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+
+        <!--    </li>-->
+
+        <!--    <li class="list-group-item py-4">-->
+        <!--      <div class="media">-->
+        <!--        <img alt="Image" src="/img/avatar-male-3.jpg" class="avatar avatar-sm" />-->
+        <!--        <div class="media-body">-->
+        <!--          <div class="mb-2">-->
+        <!--            <span class="h6 mb-0">Pip Thompson</span>-->
+        <!--            <span class="text-muted">Development at Kin</span>-->
+        <!--          </div>-->
+        <!--          <p>-->
+        <!--            Natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto-->
+        <!--          </p>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <div class="mr-2">-->
+        <!--              <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+        <!--              <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>&nbsp;(1)</button>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+
+        <!--    </li>-->
+
+        <!--    <li class="list-group-item py-4">-->
+        <!--      <div class="media">-->
+        <!--        <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-sm" />-->
+        <!--        <div class="media-body">-->
+        <!--          <div class="mb-2">-->
+        <!--            <span class="h6 mb-0">Daniel Cameron</span>-->
+        <!--            <span class="text-muted">Industrial Designer at Kin</span>-->
+        <!--          </div>-->
+        <!--          <p>-->
+        <!--            Nam HTML tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est-->
+        <!--          </p>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <div class="mr-2">-->
+        <!--              <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+        <!--              <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>&nbsp;(1)</button>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </div>-->
+
+        <!--    </li>-->
+
+        <!--  </ul>-->
+        <!--</div>-->
+
+      </div>
+      <!--end of col-->
+      <div class="col-12 col-md-4">
+        <!--<div class="card card-borderless bg-secondary">-->
+        <!--  <a class="card-body" href="#">-->
+        <!--    <div class="d-flex justify-content-between mb-3">-->
+        <!--      <img alt="Image" src="/img/logo-w-gradient.svg" />-->
+        <!--      <span class="title-decorative">Sponsor</span>-->
+        <!--    </div>-->
+        <!--    <span class="h6">A robust suite of styled elements and pages for Bootstrap 4</span>-->
+        <!--  </a>-->
+        <!--</div>-->
+        <!-- end card -->
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div><i class="icon-calendar mr-1"></i> Start date</div>
+                <span><%= @event.start_date.strftime("%d %B %Y") %></span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div><i class="icon-back-in-time mr-1"></i> End date</div>
+                <span><%= @event.end_date.strftime("%d %B %Y") %></span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div><i class="icon-location mr-1"></i> Location</div>
+                <span>Toronto</span>
+              </div>
+            </li>
+            <!--<li class="list-group-item">-->
+            <!--  <div class="d-flex justify-content-between">-->
+            <!--    <div><i class="icon-share mr-1"></i> Shares</div>-->
+            <!--    <span>52</span>-->
+            <!--  </div>-->
+            <!--</li>-->
+          </ul>
+        </div>
+        
+        <%= render 'speakers_card', :locals => { :speakers => @speakers } %>
+        <!-- end card -->
+        
+        
+        
+        <!--<% if @talks.present? %>-->
+        <!--<div class="card">-->
+        <!--  <div class="card-header d-flex justify-content-between">-->
+        <!--    <div>-->
+        <!--      <span class="h6">Talks</span>-->
+        <!--    </div>-->
+        <!--    <a href="#">View all &rsaquo;</a>-->
+        <!--  </div>-->
+        <!--  <div class="card-body">-->
+        <!--    <ul class="list-unstyled list-spacing-sm">-->
+              
+        <!--      <% @talks.each do |talk| %>-->
+        <!--        <li>-->
+        <!--        <div class="media">-->
+        <!--          <a href="/talks/<%= talk.id %>">-->
+        <!--            <img alt="Image" src="/img/graphic-product-pipeline-thumb.jpg" class="avatar avatar-square rounded mr-3" />-->
+        <!--          </a>-->
+        <!--          <div class="media-body">-->
+        <!--            <a href="/talks/<%= talk.id %>">-->
+        <!--              <span class="h6"><%= talk.title %></span>-->
+        <!--            </a>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </li>-->
+        <!--      <% end %>-->
+           
+        <!--      <li>-->
+        <!--        <div class="media">-->
+        <!--          <a href="#">-->
+        <!--            <img alt="Image" src="/img/graphic-product-bench-thumb.jpg" class="avatar avatar-square rounded mr-3" />-->
+        <!--          </a>-->
+        <!--          <div class="media-body">-->
+        <!--            <a href="#">-->
+        <!--              <span class="h6">Talk title</span>-->
+        <!--            </a>-->
+        <!--            <span class="badge badge-secondary">Speaker name</span>-->
+        <!--            <div class="text-muted">-->
+        <!--              <ul class="list-inline">-->
+        <!--                <li class="list-inline-item">-->
+        <!--                  <small></i>Today at 18:00</small>-->
+        <!--                </li>-->
+        <!--              </ul>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </li>-->
+
+        <!--    </ul>-->
+        <!--  </div>-->
+        <!--</div>-->
+        
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <div>
+              <span class="h6">Sessions</span>
+              <!--<span class="badge badge-secondary">6</span>-->
+            </div>
+            <a href="/events/<%= @event.id %>/talks">View all &rsaquo;</a>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled list-spacing-sm">
+              <% @talks.each do |talk| %>
+                <li>
+                  <i class="icon-text-document text-muted mr-1"></i>
+                  <a href="/talks/<%= talk.id %>"><%= talk.title %></a>
+                </li>
+              <% end %> 
+            </ul>
+          </div>
+        </div>
+        <!--end of card-->
+        
+        
+        <!--<div class="card">-->
+        <!--  <div class="card-header">-->
+        <!--    <span class="h6">Talks</span>-->
+        <!--  </div>-->
+        <!--  <div class="list-group list-group-flush">-->
+            
+        <!--    <% @talks.each do |talk| %>-->
+        <!--    <a class="list-group-item d-flex justify-content-between" href="/talks/<%= talk.id %>">-->
+        <!--      <div>-->
+        <!--        <i class="icon-area-graph mr-1"></i>-->
+        <!--        <span><%= talk.title %></span>-->
+        <!--      </div>-->
+        <!--      <div>-->
+        <!--        <i class="icon-chevron-right"></i>-->
+        <!--      </div>-->
+        <!--    </a>-->
+        <!--    <% end %>-->
+
+        <!--  </div>-->
+        <!--</div>-->
+        
+        
+        <% end %>
+        <!-- end card -->
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+
+
+
+
+<!--Talks-->
+<section class="bg-white space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col">
+        <div class="media align-items-center">
+          <div class="media-body">
+            <h1 class="mb-0">Schedule</h1>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+<section class="bg-white space-sm flush-with-above">
+  <div class="container">
+    <div class="row mb-3">
+      <% @days.each do |day| %>
+      <div class="col p-0">
+        <div class="progress progress-days">
+          <% if day['day_status'] == "inactive" %>
+            <div class="progress-bar bg-success opacity-50" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+          <% elsif day['day_status'] == "current" %>
+            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+          <% end %>
+        </div>
+      </div>
+      <!--end of col-->
+      <% end %>
+    </div>
+    <!--end of row-->
+    <div class="nav row text-center" id="v-pills-tab" role="tablist">
+    <% @days.each do |day| %>
+      <% if day['day_status'] == "inactive" %>
+        <a class="col opacity-50 day" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab" data-toggle="pill" href="#v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tab" aria-controls="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" aria-selected="true">
+          <span><%= day['day_number'] %></span>
+          <br>
+          <small class="text-muted"><i class="icon-check mr-1"></i><%= day['day_date_explicit'] %></small>
+        </a>
+      <% else %>
+        <a class="col day <% if day['day_status'] == "current" %>active<% end %>" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab" data-toggle="pill" href="#v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tab" aria-controls="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" aria-selected="true">
+          <span><%= day['day_number'] %></span>
+          <br>
+          <small class="text-muted"><i class="icon-calendar mr-1"></i><%= day['day_date_explicit'] %></small>
+        </a>
+      <% end %>
+    <% end %>
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+<section class="bg-white flush-with-above">
+  <div class="container space-sm">
+    <div class="row">
+      <div class="col">
+        
+        <div class="tab-content" id="v-pills-tabContent">
+          <% @days.each do |day| %>
+            <div class="tab-pane fade show <% if day['day_status'] == "current" %>active<% end %>" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tabpanel" aria-labelledby="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab">
+              <% counter = 0 %>
+              <% @talks.each do |talk| %>
+                <% if talk.date.to_date == day['day_date'] %>
+                  <% counter = counter + 1 %>
+                <% end %>
+              <% end %>
+              
+              <h3>
+                <strong><%= day['day_number'] %> Schedule</strong>
+                // <%= counter %> sessions
+              </h3>
+              
+              <% if counter != 0 %>
+                <% @talks.each do |talk| %>
+                  <% if talk.date.to_date == day['day_date'] %>
+                    <div class="row">
+                      <div class="col-2">
+                        <div><%= talk.date.strftime("%H %m") %></div>
+                        <div>
+                          <i class="fa fa-clock"></i>
+                          <% if talk.timespan.present? %>
+                            <% Time.at(talk.timespan*60).utc.strftime "%H:%M" %>
+                            <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h<% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="col-8">
+                        <h4><%= link_to talk.title, talk_path(talk) %></h4>
+                        <div class="speakers">
+                          <div class="row">
+                            <% talk.speakers.each do |speaker| %>
+                              <div class="col-12 col-sm-4 col-lg-3">
+                                <ul class="list-unstyled list-spacing-sm">
+                                  <li>
+                                    <%= render 'talk_speaker', :locals => { :user => speaker } %>
+                                  </li>
+                                </ul>
+                              </div>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <%= link_to 'Show more', talk_path(talk), :class => "btn btn-primary" %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <div>
+                  There are no talks for this day
+                </div>
+              <% end %>
+            </div>
+          <% end %>  
+        </div>
+            
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->

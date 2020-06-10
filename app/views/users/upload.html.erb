@@ -1,0 +1,107 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/users">Users</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Upload Users</li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="general" role="tabpanel">
+    <div class="container">
+      <!--end of row-->
+      <hr>
+      <div class="row mb-4">
+        <div class="col">
+          <h5>Import speakers</h5>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <div class="row">
+        <!--end of col-->
+        <div class="col-12 col-md-8 order-md-1">
+          <%= form_tag({:action => :import}, multipart: true) do %>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Please select a csv file:</label>
+                <%= file_field_tag :file, class: "" %>
+              </div>
+            </div>
+            
+            <%= hidden_field_tag :user_role, "speaker" %>
+            
+            <div class="col-6">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Import speakers</button>
+              </div>
+            </div>
+            
+          <% end %>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </div>
+  <!--end of tab pane-->
+</div>
+<!--end of tabs content-->
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="general" role="tabpanel">
+    <div class="container">
+      <!--end of row-->
+      <hr>
+      <div class="row mb-4">
+        <div class="col">
+          <h5>Import attendees</h5>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <div class="row">
+        <!--end of col-->
+        <div class="col-12 col-md-8 order-md-1">
+          <%= form_tag({:action => :import}, multipart: true) do %>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Please select a csv file:</label>
+                <%= file_field_tag :file, class: "" %>
+              </div>
+            </div>
+            
+            <%= hidden_field_tag :user_role, "attendee" %>
+            
+            <div class="col-6">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Import attendees</button>
+              </div>
+            </div>
+            
+          <% end %>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <hr>
+    </div>
+    <!--end of container-->
+  </div>
+  <!--end of tab pane-->
+</div>
+<!--end of tabs content-->

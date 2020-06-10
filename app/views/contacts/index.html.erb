@@ -1,0 +1,67 @@
+<section class="bg-dark space-lg" data-jarallax data-speed="0.2">
+  <img alt="Image" src="/img/graphic-bg-clouds-2.png" class="bg-image" />
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-12 col-md-6 col-lg-5 section-intro">
+        <h1 class="display-3">Get in touch with us</h1>
+        <span class="lead">
+          A robust suite of styled components, powered by Bootstrap 4. Ready to take your Website or App up a notch?
+        </span>
+      </div>
+      <!--end of col-->
+      <div class="col-12 col-md-6 col-lg-5">
+        <div class="card">
+          <div class="card-body">
+            
+            <%= render 'form', contact: @contact %>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+<section>
+  <div class="container">
+
+    <div class="row justify-content-center text-center section-intro">
+      <div class="col-12 col-md-9 col-lg-8">
+        <span class="title-decorative" data-aos="fade-up" data-aos-delay="10">Case Studies</span>
+        <h2 class="display-4" data-aos="fade-up" data-aos-delay="100">Latest news</h2>
+        <span class="lead" data-aos="fade-up" data-aos-delay="200">An opportunity to introduce the major benefits of your product and set the scene for what's to come</span>
+
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+
+    <div class="row">
+
+      <% @latest_news.each do |news| %>
+      <div class="col-12 col-sm-6 col-md-4">
+        <div class="card card-lg">
+          <a href="/news/<%= news.id %>">
+            <% if news.image.attached? %>
+              <%= image_tag(news.image, class: "card-img-top") %>
+            <% end %>
+          </a>
+          <div class="card-body">
+            <h4 class="card-title"><%= news.title %></h4>
+            <p class="card-text">Short summary</p>
+            <a href="/news/<%= news.id %>">Read more &rsaquo;</a>
+          </div>
+        </div>
+      </div>
+      <!--end of col-->
+      <% end %>
+
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->

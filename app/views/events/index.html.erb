@@ -1,0 +1,202 @@
+<% if current_user.present? %>
+  <% if current_user.has_role? :organizer %>
+  <nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-links">
+            <a href='/events/new'>Add event</a> 
+          </ol>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </nav>
+  <% end %>
+<% end %>
+
+<section class="bg-dark space-sm">
+  <h2 class="text-center">Ongoing events</h2>
+  <div class="main-carousel" data-flickity='{ "cellAlign": "center", "contain": true, "prevNextButtons": false, "pageDots":false, "wrapAround":true, "autoPlay":5000, "imagesLoaded":true }'>
+    <% @events_current.each do |event| %>
+      <div class="carousel-cell col-9 col-md-8 col-lg-5 text-center">
+      <a href="/events/<%= event.id %>" class="d-block mb-3">
+        <%= image_tag(event.image, class: "img-fluid rounded") %>
+      </a>
+      <span class="h6"><%= event.title %></span>
+    </div>
+    <% end %>
+  </div>
+</section>
+
+<section class="space-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <div class="mb-3">
+          <!--Navs-->
+          <div class="nav justify-content-center" id="v-pills-tab" role="tablist">
+            <a class="btn btn-secondary nav-link mr-1 active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Upcoming</a>
+            <a class="btn btn-secondary nav-link mr-1" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Current</a>
+            <a class="btn btn-secondary nav-link mr-1" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Past</a>
+          </div>
+        </div>
+        <!--<a href="#" class="text-small">Explore all categories &rsaquo;</a>-->
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+<section class="space-sm flush-with-above">
+  <div class="container">
+    
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-between">
+            <div>
+              <span class="text-muted text-small">Upcoming Events: <%= @events_upcoming.count %></span>
+            </div>
+            <!--<form class="d-flex align-items-center">-->
+            <!--  <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+            <!--  <select class="custom-select">-->
+            <!--    <option value="alpha">Alphabetical</option>-->
+            <!--    <option value="old-new" selected>Newest</option>-->
+            <!--    <option value="new-old">Popular</option>-->
+            <!--    <option value="recent">Recently Updated</option>-->
+            <!--  </select>-->
+            <!--</form>-->
+          </div>
+          <!--end of col-->
+        </div>
+        <ul class="row feature-list feature-list-sm">
+          <% @events_upcoming.each do |event| %>
+          <li class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+              <a href="/events/<%= event.id %>">
+                <%= image_tag(event.image, class: "card-img-top") %>
+              </a>
+              <div class="card-body">
+                <a href="/events/<%= event.id %>">
+                  <h4 class="card-title"><%= event.title %></h4>
+                </a>
+                <p class="card-text"><% event.title %>Event summary</p>
+              </div>
+              <div class="card-footer card-footer-borderless d-flex justify-content-between">
+                <a href="/events/<%= event.id %>">Read more ›</a>
+                <!--<div class="text-small">-->
+                <!--  <ul class="list-inline">-->
+                <!--    <li class="list-inline-item"><i class="icon-heart"></i> 221</li>-->
+                <!--    <li class="list-inline-item"><i class="icon-message"></i> 14</li>-->
+                <!--  </ul>-->
+                <!--</div>-->
+                <!--<div class="dropup">-->
+                <!--  <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="SidekickButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                <!--    <i class="icon-dots-three-horizontal"></i>-->
+                <!--  </button>-->
+                <!--  <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="SidekickButton">-->
+                <!--    <a class="dropdown-item" href="#">Save</a>-->
+                <!--    <a class="dropdown-item" href="#">Share</a>-->
+                <!--    <a class="dropdown-item" href="#">Comment</a>-->
+                <!--    <div class="dropdown-divider"></div>-->
+                <!--    <a class="dropdown-item" href="#">Report</a>-->
+                <!--  </div>-->
+                <!--</div>-->
+              </div>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      
+      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-between">
+            <div>
+              <span class="text-muted text-small">Current Events: <%= @events_current.count %></span>
+            </div>
+            <!--<form class="d-flex align-items-center">-->
+            <!--  <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+            <!--  <select class="custom-select">-->
+            <!--    <option value="alpha">Alphabetical</option>-->
+            <!--    <option value="old-new" selected>Newest</option>-->
+            <!--    <option value="new-old">Popular</option>-->
+            <!--    <option value="recent">Recently Updated</option>-->
+            <!--  </select>-->
+            <!--</form>-->
+          </div>
+          <!--end of col-->
+        </div>
+        <ul class="row feature-list feature-list-sm">
+          <% @events_current.each do |event| %>
+          <li class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+              <a href="/events/<%= event.id %>">
+                <%= image_tag(event.image, class: "card-img-top") %>
+              </a>
+              <div class="card-body">
+                <a href="/events/<%= event.id %>">
+                  <h4 class="card-title"><%= event.title %></h4>
+                </a>
+                <p class="card-text"><% event.title %>Event summary</p>
+              </div>
+              <div class="card-footer card-footer-borderless d-flex justify-content-between">
+                <a href="/events/<%= event.id %>">Read more ›</a>
+              </div>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      
+      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+        <div class="row mb-4">
+          <div class="col-12 d-flex justify-content-between">
+            <div>
+              <span class="text-muted text-small">Past Events: <%= @events_past.count %></span>
+            </div>
+            <!--<form class="d-flex align-items-center">-->
+            <!--  <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+            <!--  <select class="custom-select">-->
+            <!--    <option value="alpha">Alphabetical</option>-->
+            <!--    <option value="old-new" selected>Newest</option>-->
+            <!--    <option value="new-old">Popular</option>-->
+            <!--    <option value="recent">Recently Updated</option>-->
+            <!--  </select>-->
+            <!--</form>-->
+          </div>
+          <!--end of col-->
+        </div>
+        <ul class="row feature-list feature-list-sm">
+          <% @events_past.each do |event| %>
+          <li class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+              <a href="/events/<%= event.id %>">
+                <%= image_tag(event.image, class: "card-img-top") %>
+              </a>
+              <div class="card-body">
+                <a href="/events/<%= event.id %>">
+                  <h4 class="card-title"><%= event.title %></h4>
+                </a>
+                <p class="card-text"><% event.title %>Event summary</p>
+              </div>
+              <div class="card-footer card-footer-borderless d-flex justify-content-between">
+                <a href="/events/<%= event.id %>">Read more ›</a>
+              </div>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    
+    </div>
+  
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->

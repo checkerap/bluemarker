@@ -1,0 +1,17 @@
+.breadcrumb-links a{
+  color: white;
+  font-weight: 500;
+  padding-right: 1rem;
+}
+
+.breadcrumb-links a:hover{
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.progress-days {
+  border-radius: 0rem !important;
+}
+
+.day.active {
+  color: black;
+}

@@ -1,0 +1,9 @@
+<% link_to user_path(user), :class => 'media' do %>
+  <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-sm mr-3">
+  <div class="media-body">
+    <span class="h6 mb-0"><%= user.name %></span>
+    <% if user.occupation.present? && user.organization.present? %>
+    <span class="text-muted"><%= user.occupation %>, <%= user.organization %></span>
+    <% end %>
+  </div>
+<% end %>

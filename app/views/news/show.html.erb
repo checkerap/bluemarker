@@ -1,0 +1,179 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/news">News</a>
+          </li>
+
+          <li class="breadcrumb-item active" aria-current="page"><%= @news.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb breadcrumb-links">
+          
+          
+          <%= link_to 'Edit', edit_news_path(@news) %>
+          <%= link_to 'Destroy', @news, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+
+<section class="bg-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-7">
+        <h1 class="display-4"><%= @news.title %></h1>
+        <span class="lead">Short description</span>
+        <div class="media blog-post-author">
+          <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-sm mr-3" />
+          <div class="media-body">
+            <span class="h6">Author name</span>
+            <span class="text-small"><%= @news.created_at.to_date %></span>
+          </div>
+        </div>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+<!--<img alt="Image" src="/img/photo-team-desk-blog.jpg" class="img-fluid" />-->
+<section>
+  <article class="container">
+    <div class="row justify-content-center">
+      
+      <!--end of col-->
+      <figure class="figure text-center col-12 col-md-10 col-lg-8">
+        <!--<img alt="Image" class="img-fluid figure-img rounded" src="/img/photo-woman-laptop.jpg" />-->
+        <% if @news.image.attached? %>
+          <%= image_tag(@news.image, class: "img-fluid figure-img rounded") %>
+        <% end %>
+        <figcaption class="figure-caption">Photo credit: Death To The Stock Photo</figcaption>
+      </figure>
+      <div class="col-12 col-md-8 col-lg-6">
+        <%= @news.description %>
+      </div>
+
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+    
+  </article>
+  <!--end of container-->
+</section>
+
+<!--end of section-->
+<section>
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-auto text-center">
+        <span class="title-decorative">Share Article</span>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">
+              <img alt="Image" src="/img/social-share-twitter.svg" />
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <img alt="Image" src="/img/social-share-facebook.svg" />
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <img alt="Image" src="/img/social-share-linkedin.svg" />
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">
+              <img alt="Image" src="/img/social-share-pocket.svg" />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4 text-center">
+        <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-lg mb-3" />
+        <h5>Cameron Vasquez</h5>
+        <span>Product Designer @ Wingman, occasional author, outspoken country music advocate</span>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+<section>
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-auto">
+        <h3>Latest news</h3>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+    <ul class="feature-list feature-list-sm row">
+      
+      <% @latest_news.each do |news| %>
+      
+      <li class="col-12 col-md-6 col-lg-4">
+        <div class="card card-lg">
+          <a href="/news/<% news.id %>">
+            <!--<img class="card-img-top" src="/img/photo-man-box.jpg" alt="There is no competition">-->
+            <% if news.image.attached? %>
+              <%= image_tag(news.image, class: "card-img-top") %>
+            <% end %>
+          </a>
+          <div class="card-body">
+            <a href="/news/<% news.id %>">
+              <h4 class="card-title mb-3"><% news.title %></h4>
+            </a>
+            <p class="card-text">Short summary</p>
+          </div>
+          <div class="card-footer card-footer-borderless">
+            <div class="media blog-post-author">
+              <img alt="Image" src="/img/avatar-female-1.jpg" class="avatar avatar-xs" />
+              <div class="media-body">
+                <small>Autor name</small>
+                <small><%= @news.created_at.to_date %></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      
+      <% end %>
+
+
+    </ul>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->

@@ -1,0 +1,231 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/events">Events</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/events/<%= @event.id %>"><%= @event.title %></a>
+          </li>
+
+          <li class="breadcrumb-item active" aria-current="">Talks</li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<section class="bg-white space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col">
+        <div class="media align-items-center">
+          <!--<img alt="Image" src="/img/graphic-product-pipeline-thumb.jpg" class="avatar avatar-lg avatar-square rounded" />-->
+          <!--<% if @event.image.attached? %>-->
+          <!--  <%= image_tag(@event.image, class: "avatar avatar-lg avatar-square rounded") %>-->
+          <!--<% end %>-->
+          <div class="media-body">
+            <h1 class="mb-0"><%= @event.title %></h1>
+            <!--<h2 class="lead mb-2">Redevelopment of all facets of user experience</h2>-->
+            <div class="d-flex align-items-center mt-2">
+              <span class="badge badge-secondary mr-3"><%= @event.category.name %></span>
+              <ul class="list-inline text-small d-inline-block">
+                <li class="list-inline-item"><i class="icon-user mr-1"></i> ?</li>
+                <li class="list-inline-item"><i class="icon-message mr-1"></i> <%= @talks.count %></li>
+                <li class="list-inline-item"><i class="icon-attachment mr-1"></i><%= @papers %></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end of col-->
+      <!--<div class="col-auto">-->
+      <!--  <button class="btn btn-outline-secondary"><i class="socicon-github mr-1"></i> Repository-->
+      <!--    <span class="badge badge-secondary">+5</span>-->
+      <!--  </button>-->
+      <!--  <button class="btn btn-outline-secondary"><i class="icon-download mr-1"></i> Download</button>-->
+      <!--</div>-->
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+
+
+
+
+<section class="bg-white space-sm flush-with-above">
+  <div class="container">
+    <div class="row mb-3">
+      <% @days.each do |day| %>
+      <div class="col p-0">
+        <div class="progress progress-days">
+          <% if day['day_status'] == "inactive" %>
+            <div class="progress-bar bg-success opacity-50" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+          <% elsif day['day_status'] == "current" %>
+            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+          <% end %>
+        </div>
+      </div>
+      <!--end of col-->
+      <% end %>
+    </div>
+    <!--end of row-->
+    <div class="nav row text-center" id="v-pills-tab" role="tablist">
+    <% @days.each do |day| %>
+      <% if day['day_status'] == "inactive" %>
+        <a class="col opacity-50" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab" data-toggle="pill" href="#v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tab" aria-controls="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" aria-selected="true">
+          <span><%= day['day_number'] %></span>
+          <br>
+          <small class="text-muted"><i class="icon-check mr-1"></i><%= day['day_date'] %></small>
+        </a>
+      <% else %>
+        <a class="col" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab" data-toggle="pill" href="#v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tab" aria-controls="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" aria-selected="true">
+          <span><%= day['day_number'] %></span>
+          <br>
+          <small class="text-muted"><i class="icon-calendar mr-1"></i><%= day['day_date'] %></small>
+        </a>
+      <% end %>
+    <% end %>
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+
+
+
+
+<!--<section class="flush-with-above">-->
+<!--  <div class="container space-sm">-->
+<!--    <div class="row">-->
+<!--      <div class="col">-->
+        
+<!--        <table class="table table-borderless table-hover align-items-center">-->
+<!--          <thead>-->
+<!--            <tr>-->
+<!--              <th scope="col">Title</th>-->
+<!--              <th scope="col">Author</th>-->
+<!--              <th scope="col">Time</th>-->
+<!--            </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+            
+<!--            <div class="tab-content" id="v-pills-tabContent">-->
+<!--            <% @days.each do |day| %>-->
+<!--              <div class="tab-pane fade show" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tabpanel" aria-labelledby="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab">-->
+<!--                <%= day['day_date'] %>-->
+                
+                
+<!--                <% @talks.each do |talk| %>-->
+<!--                  <% if talk.date.to_date == day['day_date'] %>-->
+<!--                    <%= talk.title %>-->
+<!--                  <% end %>-->
+<!--                <% end %>-->
+                
+<!--              </div>-->
+<!--            <% end %>-->
+<!--            </div>-->
+
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+      <!--end of col-->
+<!--    </div>-->
+    <!--end of row-->
+<!--  </div>-->
+  <!--end of container-->
+<!--</section>-->
+<!--end of section-->
+
+<section class="bg-white flush-with-above">
+  <div class="container space-sm">
+    <div class="row">
+      <div class="col">
+        
+        <div class="tab-content" id="v-pills-tabContent">
+          <% @days.each do |day| %>
+            <div class="tab-pane fade show <% if day['day_status'] == "current" %>active<% end %>" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tabpanel" aria-labelledby="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab">
+              <h1><%= day['day_number']%></h1>
+              
+              <% counter = 0 %>
+              <% @talks.each do |talk| %>
+                <% if talk.date.to_date == day['day_date'] %>
+                  <% counter = counter + 1 %>
+                <% end %>
+              <% end %>
+              
+              <% if counter != 0 %>
+              <table class="table table-borderless table-hover align-items-center">
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @talks.each do |talk| %>
+                    <% if talk.date.to_date == day['day_date'] %>
+                      <tr class="bg-white" >
+                        <th scope="row">
+                          <a class="media align-items-center" href="/talks/<%= talk.id %>">
+                            <div class="media-body">
+                              <span class="h6 mb-0"><%= talk.title %></span>
+                            </div>
+                          </a>
+                        </th>
+                        <td><%= talk.user.name %></td>
+                        <td><%= talk.date.strftime("%I:%M %P") %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+              <% else %>
+                <table class="table table-borderless table-hover align-items-center">
+                  <thead>
+                    <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col">Author</th>
+                      <th scope="col">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="bg-white" >
+                      <th scope="row">
+                        <a class="media align-items-center">
+                          <div class="media-body">
+                            <span class="h6 mb-0">There are no talks for this day</span>
+                          </div>
+                        </a>
+                      </th>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              <% end %>
+            
+            </div>
+          <% end %>  
+        </div>
+            
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->

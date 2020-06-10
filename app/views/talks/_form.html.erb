@@ -1,0 +1,105 @@
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="general" role="tabpanel">
+    <div class="container">
+      <!--end of row-->
+      <hr>
+      <div class="row mb-4">
+        <div class="col">
+          <h5>Talk Details</h5>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <div class="row">
+        <!--end of col-->
+        <div class="col-12 col-md-8 order-md-1">
+          <%= form_with(model: talk, local: true) do |form| %>
+            <% if talk.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(talk.errors.count, "error") %> prohibited this talk from being saved:</h2>
+          
+                <ul>
+                <% talk.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+          
+            <div class="col-12">
+              <div class="form-group">
+                <label for="username">Title:</label>
+                <%= form.text_field :title, class: "form-control form-control-lg" %>
+                <!--<small>This will be displayed on your public profile</small>-->
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Description:</label>
+                <%= form.text_area :description, class: "form-control form-control-lg", rows: "10" %>
+                <!--<textarea class="form-control form-control-lg" name="profileBio" rows="4" id="about-me"></textarea>-->
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Select category:</label>
+                  <%= form.collection_select(:category_id, Category.where(category_type: "talk"), :id, :name, {}, {:class=>'selectpicker'}) %>
+              </div>
+            </div>
+            
+            <!--<div class="col-12">-->
+            <!--  <div class="form-group">-->
+            <!--    <label for="about-me">Date:</label>-->
+            <!--      <%= form.date_select :date, min: @event.start_date, max: @event.end_date %>-->
+            <!--  </div>-->
+            <!--</div>-->
+            
+            <div class="col-6">
+              <div class="form-group">
+                <% if params[:action] == "edit" %>
+                  <label for="about-me">Current date is: <%= @talk.date.utc.in_time_zone(@talk.timezone).strftime("%I:%M %p") %> <%= @talk.timezone %></label>
+                <% else %>
+                  <label for="about-me">Date:</label>
+                <% end %>
+                <input type="text" name="date_select" class="form-control form-control-lg" value="" />
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Timespan:</label>
+                <%= form.select(:timespan, [["15m", "15"], ["30m", "30"], ["45m", "45"], ["1h", "60"], ["1h 15m", "75"], ["1h 30m", "90"], ["1h 45m", "105"], ["2h", "120"], ["2h 15m", "135"], ["2h 30m", "150"], ["2h 45m", "165"], ["3h", "180"], ["3h 15m", "195"], ["3h 30m", "210"], ["3h 45m", "225"], ["4h", "240"], ["4h 15m", "255"], ["4h 30m", "270"], ["4h 45m", "285"], ["5h", "300"]], {}, class: "form-control form-control-lg") %>
+              </div>
+            </div>
+            
+            <% if params[:action] == "new" %>
+              <%= form.hidden_field :event_id, :value => params[:event] %>
+            <% end %>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Timezone:</label>
+                <%= form.time_zone_select :timezone, nil, {}, {:class => 'form-control form-control-lg'} %>
+              </div>
+            </div>
+            
+            <div class="col-6">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+            
+          <% end %>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <hr>
+    </div>
+    <!--end of container-->
+  </div>
+  <!--end of tab pane-->
+</div>
+<!--end of tabs content-->

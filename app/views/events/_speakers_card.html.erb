@@ -1,0 +1,27 @@
+<% if @speakers.present? %>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between">
+      <div>
+        <span class="h6">Speakers</span>
+      </div>
+      <!--<a href="#">View all &rsaquo;</a>-->
+    </div>
+    <div class="card-body">
+      <ul class="list-unstyled list-spacing-sm">
+        
+        <% @speakers.each do |speaker| %>
+        <li>
+          <a class="media" href="/users/<%= speaker.id %>">
+            <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-sm mr-3" />
+            <div class="media-body">
+              <span class="h6 mb-0"><%= speaker.name %></span>
+              <span class="text-muted"><% speaker.title %>Job title</span>
+            </div>
+          </a>
+        </li>
+        <% end %>
+
+      </ul>
+    </div>
+  </div>
+  <% end %>
