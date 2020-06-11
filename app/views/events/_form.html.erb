@@ -81,7 +81,7 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="about-me">Select category:</label>
-                  <%= form.collection_select(:category_id, Category.where(category_type: "event"), :id, :name, {}, {:class=>'selectpicker'}) %>
+                  <%= form.collection_select(:category_id, Category.where(category_type: "event"), :id, :name, {}, {:class=>'form-control selectpicker'}) %>
               </div>
             </div>
 
@@ -95,7 +95,7 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="about-me">Upload image:</label>
-                  <%= form.file_field :image, class: "" %>
+                  <%= form.file_field :image, class: 'form-control' %>
               </div>
             </div>
             
@@ -110,7 +110,7 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="about-me">Select speakers:</label>
-                  <%= form.collection_select(:speakers, @speakers, :id, :name, {}, {:class=>'selectpicker', :multiple => true}) %>
+                  <%= form.collection_select(:speaker_ids, @speakers, :id, :name, {}, {:class=>'form-control multiselect', :multiple => true}) %>
               </div>
             </div>
             

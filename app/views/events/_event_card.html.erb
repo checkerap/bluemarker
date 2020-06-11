@@ -1,0 +1,34 @@
+<div class="card">
+  <a href="/events/<%= event.id %>">
+    <%= image_tag(event.image, class: "card-img-top") %>
+  </a>
+  <div class="card-body">
+    <h4 class="card-title">
+      <a href="/events/<%= event.id %>">
+        <%= truncate(event.title, length: 80) %>
+      </a>
+    </h4>
+    <p class="card-text"><i class="icon-calendar"></i> <%= event.start_date.strftime('%d %b. %Y') %></p>
+  </div>
+  <div class="card-footer card-footer-borderless d-flex justify-content-between">
+    <a href="/events/<%= event.id %>">Read more ›</a>
+    <!--<div class="text-small">-->
+    <!--  <ul class="list-inline">-->
+    <!--    <li class="list-inline-item"><i class="icon-heart"></i> 221</li>-->
+    <!--    <li class="list-inline-item"><i class="icon-message"></i> 14</li>-->
+    <!--  </ul>-->
+    <!--</div>-->
+    <!--<div class="dropup">-->
+    <!--  <button class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="SidekickButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+    <!--    <i class="icon-dots-three-horizontal"></i>-->
+    <!--  </button>-->
+    <!--  <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="SidekickButton">-->
+    <!--    <a class="dropdown-item" href="#">Save</a>-->
+    <!--    <a class="dropdown-item" href="#">Share</a>-->
+    <!--    <a class="dropdown-item" href="#">Comment</a>-->
+    <!--    <div class="dropdown-divider"></div>-->
+    <!--    <a class="dropdown-item" href="#">Report</a>-->
+    <!--  </div>-->
+    <!--</div>-->
+  </div>
+</div>

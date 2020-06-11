@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'image_processing', '~> 1.2'
+gem 'multi-select-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -50,7 +51,8 @@ gem 'redcarpet'
 gem 'smarter_csv'
 # Gon
 gem 'gon'
-
+# Thredded
+gem 'thredded'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

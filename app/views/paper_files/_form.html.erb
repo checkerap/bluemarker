@@ -1,0 +1,55 @@
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="general" role="tabpanel">
+    <div class="container">
+      <hr>
+
+      <h4>File Details</h4>
+
+      <!--end of row-->
+      <div class="row">
+        <!--end of col-->
+        <div class="col-12 col-md-8 order-md-1">
+          <%= form_for(@paper_file) do |form| %>
+            <% if @paper_file.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@paper_file.errors.count, "error") %> prohibited this paper from being saved:</h2>
+          
+                <ul>
+                <% @paper_file.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+            
+            <div class="form-group">
+              <label for="username">Title:</label>
+              <%= form.text_field :title, class: "form-control form-control-lg" %>
+              <!--<small>This will be displayed on your public profile</small>-->
+            </div>
+            
+            <% if params[:action] == "new" %>
+              <%= form.hidden_field :paper_id, :value => params[:paper] %>
+            <% end %>
+            
+            <div class="form-group">
+              <label>Upload file:</label>
+                <%= form.file_field :document, class: "form-control" %>
+            </div>
+            
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            
+          <% end %>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <hr>
+    </div>
+    <!--end of container-->
+  </div>
+  <!--end of tab pane-->
+</div>
+<!--end of tabs content-->

@@ -14,15 +14,12 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @speakers = User.with_role :event_speaker, Event.find(@event.id)
-    @talks = @event.talks.order(date: :asc)
-    
     @days_number = (@event.end_date - @event.start_date + 1).to_i
     @days = []
     (1..@days_number).each do |i|
       day_number = "Day #{i}"
       day_date = @event.start_date + i.days - 1.days
-      day_date_explicit = day_date.strftime("%d %B %Y")
+      day_date_explicit = day_date.strftime("%d %b. %Y")
       if day_date < Date.today
         day_status = "inactive"
       elsif day_date == Date.today
@@ -59,15 +56,20 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     
     # Set event user_id
-    @event.user_id = current_user.id
+    @event.user = current_user
+    
     # Set event start and end date
-    start_date = Date.strptime(params[:start_date_select], '%m/%d/%y')
-    end_date = Date.strptime(params[:end_date_select], '%m/%d/%y')
-    @event.start_date = start_date
-    @event.end_date = end_date
+    start_date          = Date.strptime(params[:start_date_select], '%m/%d/%y')
+    end_date            = Date.strptime(params[:end_date_select], '%m/%d/%y')
+    @event.start_date   = start_date
+    @event.end_date     = end_date
     
     respond_to do |format|
       if @event.save
+        @event.speakers.each do |speaker|
+          speaker.add_role :event_speaker, @event
+        end
+        
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
         user.add_role :moderator, Event.find_by(id: @event.id)
@@ -76,46 +78,28 @@ class EventsController < ApplicationController
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
-    
-    @speakers = User.with_role :speaker
-    params_speakers = params[:event][:speakers]
-    params_speakers.each do |speaker|
-      if speaker.present?
-        event_speaker = @speakers.find(speaker)
-      end
-      if event_speaker.present?
-        event_speaker.add_role :event_speaker, Event.find(@event.id)
-      end
-    end
   end
 
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
     # Set event start and end date
-    start_date = Date.strptime(params[:start_date_select], '%m/%d/%y')
-    end_date = Date.strptime(params[:end_date_select], '%m/%d/%y')
-    @event.start_date = start_date
-    @event.end_date = end_date
+    start_date          = Date.strptime(params[:start_date_select], '%m/%d/%y')
+    end_date            = Date.strptime(params[:end_date_select], '%m/%d/%y')
+    @event.start_date   = start_date
+    @event.end_date     = end_date
     
     respond_to do |format|
       if @event.update(event_params)
+        @event.speakers.each do |speaker|
+          speaker.add_role :event_speaker, @event
+        end
+    
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
         format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
-    end
-    
-    @speakers = User.with_role :speaker
-    params_speakers = params[:event][:speakers]
-    params_speakers.each do |speaker|
-      if speaker.present?
-        event_speaker = @speakers.find(speaker)
-      end
-      if event_speaker.present?
-        event_speaker.add_role :event_speaker, Event.find(@event.id)
       end
     end
   end
@@ -161,11 +145,14 @@ class EventsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      @event = Event.includes(:speakers, :talks).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :summary, :content, :user_id, :start_date, :end_date, :image, :category_id, :video)
+      params.require(:event).permit(:title, :summary, :content, 
+        :user_id, :start_date, :end_date, :image, 
+        :category_id, :video, 
+        :speaker_ids => [])
     end
 end

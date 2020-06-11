@@ -1,0 +1,66 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/talks/<%= @paper.talk.id %>"><%= @paper.talk.title %></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page"><%= @paper.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<% if current_user.has_role? :organizer %>
+<nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb breadcrumb-links">
+          <%= link_to 'Edit', edit_paper_path(@paper) %>
+          <%= link_to 'Destroy', @paper, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Add file', new_paper_file_path %>
+        </ol>
+      </div>
+    </div>
+  </div>
+</nav>
+<% end %>
+
+<%= render :partial => 'shared/page_header', locals: { :title => @paper.title } %>
+
+<section class="space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-8 col-lg-7">
+        <article>
+          <%= markdown(@paper.description) %>
+        </article>
+        <hr>
+        
+        <h3>Files</h3>
+        
+        <div class="list-group list-group-flush">
+          <% if @paper.paper_files.size > 0 %>  
+            <% @paper.paper_files.each do |paper_file| %>
+              <%= render 'talks/paper', paper: paper_file %>
+            <% end %>
+          <% else %>
+            <p>No files available at this point</p>
+            <p><%= link_to 'Add file', new_paper_file_path(:paper => @paper.id), :class => 'btn btn-primary' %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <%= render 'events/speakers_card', :speakers => @paper.authors, :title => 'Authors' %>
+      </div>
+    </div>
+  </div>
+</section>

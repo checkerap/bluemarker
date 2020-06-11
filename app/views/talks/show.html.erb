@@ -19,67 +19,72 @@
   <!--end of container-->
 </nav>
 
+<% if current_user and current_user.has_role?(:organizer) %>
 <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
         <ol class="breadcrumb breadcrumb-links">
-          
           <%= link_to 'Edit', edit_talk_path(@talk) %>
           <%= link_to 'Destroy', @talk, method: :delete, data: { confirm: 'Are you sure?' } %>
-          <a href='/papers/new?talk=<%= @talk.id %>'>Add paper</a>
-          
+          <%= link_to 'Add paper', new_paper_path(:talk => @talk.id) %>
         </ol>
       </div>
-      <!--end of col-->
     </div>
-    <!--end of row-->
   </div>
-  <!--end of container-->
 </nav>
+<% end %>
 
-<section class="bg-white">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1 class="display-4"><%= @talk.title %></h1>
-      </div>
-      <!--end of col-->
-    </div>
-    <!--end of row-->
-  </div>
-  <!--end of container-->
-</section>
-<!--end of section-->
+<%= render :partial => 'shared/page_header', locals: { :title => @talk.title } %>
+
 <section class="space-sm">
   <div class="container">
     <div class="row justify-content-between">
       <div class="col-12 col-md-8 col-lg-7">
+        <% if @talk.recorded_video_link.present? %>
+          <div class="video-cover">
+            <div class="video-play-icon">
+              <i class="icon-controller-play"></i>
+            </div>
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" data-src="<%= @talk.recorded_video_link %>" allowfullscreen></iframe>
+            </div>
+          </div>
+        <% end %>
+        
         <article>
           <%= markdown(@talk.description) %>
         </article>
         <hr>
         
-        <div>
-          <h3>Papers</h3>
-          
-          <div class="list-group list-group-flush">
+        <h5>Live video</h5>
+          <% if @talk.live_video_link.present? %>
+            <p><%= link_to @talk.live_video_link, @talk.live_video_link %></p>
+          <% else %>
+            <p>No live video link available yet</p>
+          <% end %>
+        <hr>
+        
+        <h3>Papers</h3>
+        
+        <div class="list-group list-group-flush">
+          <% if @papers.size > 0 %>  
+            <% if current_user and current_user.has_role?(:organizer) %>
+            <p><%= link_to 'Add paper', new_paper_path(:talk => @talk.id), :class => 'btn btn-primary' %></p>
+            <% end %>
             
             <% @papers.each do |paper| %>
-            <a class="list-group-item d-flex justify-content-between">
-              <div data-toggle="modal" data-target="#modal<%= paper.id %>" style="cursor: pointer;">
-                <!--<i class="icon-area-graph mr-1"></i>-->
-                <span><%= paper.title %></span>
-              </div>
-              <div>
-                <i class="icon-chevron-right"></i>
-              </div>
-            </a>
+              <%= render 'talks/paper', paper: paper %>
             <% end %>
-          </div>
+          <% else %>
+            <p>No papers available at this point</p>
+            <% if current_user and current_user.has_role?(:organizer) %>
+            <p><%= link_to 'Add paper', new_paper_path(:talk => @talk.id), :class => 'btn btn-primary' %></p>
+            <% end %>
+          <% end %>
         </div>
       </div>
-      <!--end of col-->
+
       <div class="col-12 col-md-4">
         
         <div class="card">
@@ -88,16 +93,20 @@
             <li class="list-group-item">
               <div class="d-flex justify-content-between">
                 <div><i class="icon-calendar mr-1"></i> Date</div>
-                <span><%= @talk.date.utc.in_time_zone(current_user.timezone).strftime("%d %B %Y") %></span>
+                <% if current_user and @talk.timespan.present? %>
+                  <span><%= @talk.date.utc.in_time_zone(current_user.timezone).strftime("%d %B %Y") %></span>
+                <% else %>
+                  <span><%= @talk.date.strftime("%d %B %Y") %></span>
+                <% end %>
               </div>
             </li>
             <li class="list-group-item">
               <div class="d-flex justify-content-between">
                 <div><i class="icon-clock mr-1"></i> Time</div>
-                <% if @talk.timespan.present? %>
+                <% if current_user and @talk.timespan.present? %>
                   <span><%= @talk.date.utc.in_time_zone(current_user.timezone).strftime("%I:%M %p") %> - <%= (@talk.date.utc + @talk.timespan.minutes).in_time_zone(current_user.timezone).strftime("%I:%M %p") %></span>
                 <% else %>
-                  <span><%= @talk.date.utc.in_time_zone(current_user.timezone).strftime("%I:%M %p") %></span>
+                  <span><%= @talk.date.strftime("%I:%M %p") %></span>
                 <% end %>
               </div>
             </li>
@@ -114,39 +123,8 @@
           </ul>
         </div>
         
-        <%= render 'events/speakers_card', :locals => { :speakers => @talk.speakers } %>
+        <%= render 'events/speakers_card', :speakers => @talk.speakers, title: 'Speakers' %>
       </div>
-      <!--end of col-->
     </div>
-    <!--end of row-->
   </div>
-  <!--end of container-->
 </section>
-<!--end of section-->
-
-<% @papers.each do |paper| %>
-<!-- Modal -->
-<div class="modal fade" id="modal<%= paper.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><%= paper.title %></h5>
-        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-        <!--  <span aria-hidden="true">&times;</span>-->
-        <!--</button>-->
-      </div>
-      <div class="modal-body">
-        <%= markdown(paper.description) %>
-      </div>
-      <div class="modal-footer">
-        <%= link_to 'Edit', edit_paper_path(paper), class: "btn btn-primary" %>
-        <%= link_to 'Destroy', paper, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-        <% if paper.document.attached? %>
-          <%= link_to "Open document", paper.document, class: "btn btn-secondary" %>
-        <% end %>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<% end %>

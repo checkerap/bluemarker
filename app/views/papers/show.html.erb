@@ -1,15 +1,73 @@
-<h1><%= @paper.title %></h1>
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/talks/<%= @paper.talk.id %>"><%= @paper.talk.title %></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page"><%= @paper.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
 
-<p><strong>Description:</strong> <%= @paper.description %></p>
-<p><strong>User:</strong> <%= @paper.user.email %></p>
-<p><strong>Talk:</strong> <%= @paper.talk.title %></p>
-
-<% if @paper.document.attached? %>
-  <%= link_to "Open document", @paper.document %>
+<% if current_user and current_user.has_role?(:organizer) %>
+<nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb breadcrumb-links">
+          <%= link_to 'Edit', edit_paper_path(@paper) %>
+          <%= link_to 'Destroy', @paper, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Add file', new_paper_file_path(:paper => @paper.id) %>
+        </ol>
+      </div>
+    </div>
+  </div>
+</nav>
 <% end %>
 
-<div class="mt-5">
-  <%= link_to 'Edit', edit_paper_path(@paper) %> |
-  <%= link_to 'Destroy', @paper, method: :delete, data: { confirm: 'Are you sure?' } %> | 
-  <%= link_to 'Back', @paper.talk %>
-</div>
+<%= render :partial => 'shared/page_header', locals: { :title => @paper.title } %>
+
+<section class="space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-8">
+        <article>
+          <%= markdown(@paper.description) %>
+        </article>
+        <hr>
+        
+        <h3>Files</h3>
+    
+        <% if @paper.paper_files.size > 0 %>
+          <% if current_user and (current_user.has_role?(:organizer) or 
+            @paper.authors.include?(current_user)) %>
+          <p class="mb-3"><%= link_to 'Add file', new_paper_file_path(:paper => @paper.id), :class => 'btn btn-primary' %></p>
+          <% end %>
+          
+          <% @paper.paper_files.each do |paper_file| %>
+            <%= render 'papers/paper_file', paper_file: paper_file %>
+          <% end %>
+        <% else %>
+          <p>No files available at this point</p>
+          
+          <% if current_user and (current_user.has_role?(:organizer) or 
+            @paper.authors.include?(current_user)) %>
+          <p><%= link_to 'Add file', new_paper_file_path(:paper => @paper.id), :class => 'btn btn-primary' %></p>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <%= render 'events/speakers_card', :speakers => @paper.authors, :title => 'Authors' %>
+      </div>
+    </div>
+  </div>
+</section>

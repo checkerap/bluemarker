@@ -17,30 +17,26 @@
   <!--end of container-->
 </nav>
   
-<% if current_user.present? %>
-  <% if current_user.has_role? :organizer or current_user.has_role? :event_speaker, Event.find(@event.id) %>
-    <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col">
-            <ol class="breadcrumb breadcrumb-links">
-              <% if current_user.has_role? :organizer %>
-                <%= link_to 'Edit', edit_event_path(@event) %>
-                <%= link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' } %>
-                <a href='/talks/new?event=<%= @event.id %>'>Add session</a> 
-                <!--<a href='/users/speakers?event=<%= @event.id %>'>Add speakers</a>-->
-              <% elsif current_user.has_role? :event_speaker, Event.find(@event.id) %>
-                <a href='/talks/new?event=<%= @event.id %>'>Add talk</a> 
-              <% end %>
-            </ol>
-          </div>
-          <!--end of col-->
+<% if current_user and current_user.has_role? :organizer %>
+  <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-links">
+            <% if current_user.has_role? :organizer %>
+              <%= link_to 'Edit', edit_event_path(@event) %>
+              <%= link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <a href='/talks/new?event=<%= @event.id %>'>Add session</a>
+              <!--<a href='/users/speakers?event=<%= @event.id %>'>Add speakers</a>-->
+            <% end %>
+          </ol>
         </div>
-        <!--end of row-->
+        <!--end of col-->
       </div>
-      <!--end of container-->
-    </nav>
-  <% end %>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </nav>
 <% end %>
 
 <section class="bg-white space-sm">
@@ -321,117 +317,11 @@
                 <span>Toronto</span>
               </div>
             </li>
-            <!--<li class="list-group-item">-->
-            <!--  <div class="d-flex justify-content-between">-->
-            <!--    <div><i class="icon-share mr-1"></i> Shares</div>-->
-            <!--    <span>52</span>-->
-            <!--  </div>-->
-            <!--</li>-->
           </ul>
         </div>
         
-        <%= render 'speakers_card', :locals => { :speakers => @speakers } %>
-        <!-- end card -->
-        
-        
-        
-        <!--<% if @talks.present? %>-->
-        <!--<div class="card">-->
-        <!--  <div class="card-header d-flex justify-content-between">-->
-        <!--    <div>-->
-        <!--      <span class="h6">Talks</span>-->
-        <!--    </div>-->
-        <!--    <a href="#">View all &rsaquo;</a>-->
-        <!--  </div>-->
-        <!--  <div class="card-body">-->
-        <!--    <ul class="list-unstyled list-spacing-sm">-->
-              
-        <!--      <% @talks.each do |talk| %>-->
-        <!--        <li>-->
-        <!--        <div class="media">-->
-        <!--          <a href="/talks/<%= talk.id %>">-->
-        <!--            <img alt="Image" src="/img/graphic-product-pipeline-thumb.jpg" class="avatar avatar-square rounded mr-3" />-->
-        <!--          </a>-->
-        <!--          <div class="media-body">-->
-        <!--            <a href="/talks/<%= talk.id %>">-->
-        <!--              <span class="h6"><%= talk.title %></span>-->
-        <!--            </a>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </li>-->
-        <!--      <% end %>-->
-           
-        <!--      <li>-->
-        <!--        <div class="media">-->
-        <!--          <a href="#">-->
-        <!--            <img alt="Image" src="/img/graphic-product-bench-thumb.jpg" class="avatar avatar-square rounded mr-3" />-->
-        <!--          </a>-->
-        <!--          <div class="media-body">-->
-        <!--            <a href="#">-->
-        <!--              <span class="h6">Talk title</span>-->
-        <!--            </a>-->
-        <!--            <span class="badge badge-secondary">Speaker name</span>-->
-        <!--            <div class="text-muted">-->
-        <!--              <ul class="list-inline">-->
-        <!--                <li class="list-inline-item">-->
-        <!--                  <small></i>Today at 18:00</small>-->
-        <!--                </li>-->
-        <!--              </ul>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </li>-->
+        <%= render 'events/speakers_card', :speakers => @event.speakers, title: 'Speakers' %>
 
-        <!--    </ul>-->
-        <!--  </div>-->
-        <!--</div>-->
-        
-        <div class="card">
-          <div class="card-header d-flex justify-content-between">
-            <div>
-              <span class="h6">Sessions</span>
-              <!--<span class="badge badge-secondary">6</span>-->
-            </div>
-            <a href="/events/<%= @event.id %>/talks">View all &rsaquo;</a>
-          </div>
-          <div class="card-body">
-            <ul class="list-unstyled list-spacing-sm">
-              <% @talks.each do |talk| %>
-                <li>
-                  <i class="icon-text-document text-muted mr-1"></i>
-                  <a href="/talks/<%= talk.id %>"><%= talk.title %></a>
-                </li>
-              <% end %> 
-            </ul>
-          </div>
-        </div>
-        <!--end of card-->
-        
-        
-        <!--<div class="card">-->
-        <!--  <div class="card-header">-->
-        <!--    <span class="h6">Talks</span>-->
-        <!--  </div>-->
-        <!--  <div class="list-group list-group-flush">-->
-            
-        <!--    <% @talks.each do |talk| %>-->
-        <!--    <a class="list-group-item d-flex justify-content-between" href="/talks/<%= talk.id %>">-->
-        <!--      <div>-->
-        <!--        <i class="icon-area-graph mr-1"></i>-->
-        <!--        <span><%= talk.title %></span>-->
-        <!--      </div>-->
-        <!--      <div>-->
-        <!--        <i class="icon-chevron-right"></i>-->
-        <!--      </div>-->
-        <!--    </a>-->
-        <!--    <% end %>-->
-
-        <!--  </div>-->
-        <!--</div>-->
-        
-        
-        <% end %>
-        <!-- end card -->
       </div>
       <!--end of col-->
     </div>
@@ -503,7 +393,7 @@
 <!--end of section-->
 
 <section class="bg-white flush-with-above">
-  <div class="container space-sm">
+  <div class="container ">
     <div class="row">
       <div class="col">
         
@@ -511,7 +401,7 @@
           <% @days.each do |day| %>
             <div class="tab-pane fade show <% if day['day_status'] == "current" %>active<% end %>" id="v-pills-<%= day['day_number'].delete_prefix("Day ") %>" role="tabpanel" aria-labelledby="v-pills-<%= day['day_number'].delete_prefix("Day ") %>-tab">
               <% counter = 0 %>
-              <% @talks.each do |talk| %>
+              <% @event.talks.order(:date => :asc).each do |talk| %>
                 <% if talk.date.to_date == day['day_date'] %>
                   <% counter = counter + 1 %>
                 <% end %>
@@ -523,39 +413,9 @@
               </h3>
               
               <% if counter != 0 %>
-                <% @talks.each do |talk| %>
+                <% @event.talks.order(:date => :asc).each do |talk| %>
                   <% if talk.date.to_date == day['day_date'] %>
-                    <div class="row">
-                      <div class="col-2">
-                        <div><%= talk.date.strftime("%H %m") %></div>
-                        <div>
-                          <i class="fa fa-clock"></i>
-                          <% if talk.timespan.present? %>
-                            <% Time.at(talk.timespan*60).utc.strftime "%H:%M" %>
-                            <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h<% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %>
-                          <% end %>
-                        </div>
-                      </div>
-                      <div class="col-8">
-                        <h4><%= link_to talk.title, talk_path(talk) %></h4>
-                        <div class="speakers">
-                          <div class="row">
-                            <% talk.speakers.each do |speaker| %>
-                              <div class="col-12 col-sm-4 col-lg-3">
-                                <ul class="list-unstyled list-spacing-sm">
-                                  <li>
-                                    <%= render 'talk_speaker', :locals => { :user => speaker } %>
-                                  </li>
-                                </ul>
-                              </div>
-                            <% end %>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-2">
-                        <%= link_to 'Show more', talk_path(talk), :class => "btn btn-primary" %>
-                      </div>
-                    </div>
+                    <%= render 'event_talk', talk: talk %>
                   <% end %>
                 <% end %>
               <% else %>

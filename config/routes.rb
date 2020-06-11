@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
+  root 'home#index'
+  
   resources :contacts
   resources :categories
   resources :events
   resources :news
   resources :papers
+  resources :paper_files
   resources :talks
   resources :categories
   resources :contacts
   devise_for :users
-  root 'home#index'
   
   get 'home' => 'home#index'
   get 'private' => 'home#private'
@@ -30,4 +32,6 @@ Rails.application.routes.draw do
     # Event talks
     get '/events/:id/talks' => 'events#talks'
   
+  # Thredded
+  mount Thredded::Engine => '/forum'
 end

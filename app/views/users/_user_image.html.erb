@@ -1,5 +1,5 @@
 <% if user.image.attached? %>
-  <%= image_tag url_for(user.image.variant(resize: "400x400!")), :class => image_classes || 'avatar' %>
+  <%= image_tag url_for(user.image.variant(combine_options: { gravity: 'Center', crop: '400x400+0+0' })), :class => image_classes || 'avatar' %>
 <% else %>
   <img alt="Image" src="/img/avatar-male-1.jpg" class="<%= image_classes || 'avatar' %>" />
 <% end %>

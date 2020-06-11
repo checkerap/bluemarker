@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="card-body">
+    <h4>
+      <%= link_to paper.title, paper_path(paper) %>
+    </h4>
+    <p><%= truncate(paper.description, length: 255) %></p>
+    <%= link_to 'view more', paper_path(paper) %>
+  </div>
+  
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-6">
+          <i class="icon-users">&nbsp;</i> 
+          <%= pluralize(paper.authors.size, 'author') %>
+        </div>
+        <div class="col-6 text-right">
+          <i class="icon-folder">&nbsp;</i> 
+          <%= pluralize(paper.paper_files.size, 'file') %>
+        </div>
+      </div>
+    </li>
+  </ul>
+  
+  <div class="card-footer d-flex align-items-center">
+    <div>
+      <ul class="list-inline list-spacing-sm">
+        <% paper.authors.limit(4).each do |author| %>
+          <li class="list-inline-item">
+            <%= render 'users/user_image', user: author, :image_classes => 'avatar avatar-xs' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <% if paper.authors.size > 4 %>
+      <%
+        plus_count = paper.authors.size - 4
+      %>
+      <span class="text-small ml-2">
+        <%= link_to paper_path(paper) do %>
+          + <%= plus_count %> more
+        <% end %>
+      </span>
+    <% end %>
+  </div>
+</div>

@@ -28,3 +28,4 @@
 // = require prism
 // = require zoom.min
 // = require theme
+// = require multi-select

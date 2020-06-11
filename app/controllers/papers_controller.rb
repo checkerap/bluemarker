@@ -14,8 +14,9 @@ class PapersController < ApplicationController
 
   # GET /papers/new
   def new
-    @paper = Paper.new
-    @talk = Talk.find(params[:talk])
+    @paper        = Paper.new
+    @talk         = Talk.find params[:talk]
+    @paper.talk   = @talk
   end
 
   # GET /papers/1/edit
@@ -30,7 +31,7 @@ class PapersController < ApplicationController
 
     respond_to do |format|
       if @paper.save
-        format.html { redirect_to "/talks/#{@paper.talk.id}", notice: 'Paper was successfully created.' }
+        format.html { redirect_to paper_path(@paper), notice: 'Paper was successfully created.' }
         format.json { render :show, status: :created, location: @paper }
       else
         format.html { render :new }
@@ -44,7 +45,7 @@ class PapersController < ApplicationController
   def update
     respond_to do |format|
       if @paper.update(paper_params)
-        format.html { redirect_to "/talks/#{@paper.talk.id}", notice: 'Paper was successfully updated.' }
+        format.html { redirect_to paper_path(@paper), notice: 'Paper was successfully updated.' }
         format.json { render :show, status: :ok, location: @paper }
       else
         format.html { render :edit }
@@ -66,11 +67,12 @@ class PapersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_paper
-      @paper = Paper.find(params[:id])
+      @paper = Paper.includes(:authors, :paper_files).find params[:id]
     end
 
     # Only allow a list of trusted parameters through.
     def paper_params
-      params.require(:paper).permit(:title, :description, :user_id, :talk_id, :document)
+      params.require(:paper).permit(:title, :description, :user_id, :talk_id, 
+      :document, :author_ids => [])
     end
 end

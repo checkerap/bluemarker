@@ -10,23 +10,27 @@ class TalksController < ApplicationController
   # GET /talks/1
   # GET /talks/1.json
   def show
-    @talks = Talk.where(event_id: @talk.event_id).where.not(id: @talk.id).order(date: :asc)
-    @papers = Paper.where(talk_id: @talk.id)
+    @papers = Paper.includes(:authors, :paper_files).where(talk: @talk)
   end
 
   # GET /talks/new
   def new
-    @event = Event.find(params[:event])
     @talk = Talk.new
     
-    gon.talk_date = Date.today
-    gon.talk_event_start_date = @event.start_date
-    gon.talk_event_end_date = @event.end_date
+    @event = Event.find params[:event]
+    @talk.event = @event
+    
+    @speakers = @talk.event.speakers
+    
+    gon.talk_date = Date.today.strftime('%m/%d/%Y %I:%M')
+    gon.talk_event_start_date   = @event.start_date
+    gon.talk_event_end_date     = @event.end_date
   end
 
   # GET /talks/1/edit
   def edit
-    @event = Event.find(@talk.event_id)
+    @event = @talk.event
+    @speakers = @talk.event.speakers
     
     # Gon variables for calendar datetime
       date = @talk.date.utc.in_time_zone(@talk.timezone)
@@ -41,8 +45,8 @@ class TalksController < ApplicationController
   def create
     @talk = Talk.new(talk_params)
     @talk.user_id = current_user.id
-    
-    date = DateTime.strptime(params[:date_select], '%m/%d/%y %H:%M %p')  
+ 
+    date = DateTime.strptime(params[:date_select], '%m/%d/%Y %H:%M %p')  
     @talk.date = date
     
     respond_to do |format|
@@ -89,11 +93,14 @@ class TalksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_talk
-      @talk = Talk.find(params[:id])
+      @talk = Talk.includes(:speakers, :papers).find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def talk_params
-      params.require(:talk).permit(:title, :description, :date, :user_id, :event_id, :timezone, :timespan, :category_id)
+      params.require(:talk).permit(:title, :description, :date, 
+      :user_id, :event_id, :timezone, :timespan, 
+      :live_video_link, :recorded_video_link, :category_id,
+      :speaker_ids => [])
     end
 end

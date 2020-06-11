@@ -1,0 +1,20 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/papers/<%= @paper_file.paper.id %>"><%= @paper_file.paper.title %></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">New File</li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<%= render 'form', paper: @paper %>

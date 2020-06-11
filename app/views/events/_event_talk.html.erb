@@ -1,0 +1,22 @@
+ <div class="row mb-4">
+  <div class="col-2">
+    <div><%= talk.date.strftime("%I:%M %P") %></div>
+    <div class="text-muted">
+      <i class="icon-clock"></i>
+      <% if talk.timespan.present? %>
+        <% Time.at(talk.timespan*60).utc.strftime "%H:%M" %>
+        <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h <% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-8">
+    <h5><%= link_to talk.title, talk_path(talk) %></h5>
+
+    <% talk.speakers.order(:name => :asc).each do |speaker| %>
+      <%= render 'events/talk_speaker', :user => speaker %>
+    <% end %>
+  </div>
+  <div class="col-2">
+    <%= link_to 'Show more', talk_path(talk), :class => "btn btn-primary" %>
+  </div>
+</div>

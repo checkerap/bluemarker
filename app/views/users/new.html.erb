@@ -33,6 +33,20 @@
         <div class="col-12 col-md-8 order-md-1">
           <%= form_for User.new, :html => {:class => 'row'}, url: create_user_path do |f| %>
             
+            <div class="col-12 col-md-8 order-md-1">
+      
+            <% if user.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(user.errors.count, "error") %> prohibited this talk from being saved:</h2>
+          
+                <ul>
+                <% user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+            
             <div class="col-12">
               <div class="form-group">
                 <label>Name:</label>
@@ -53,6 +67,16 @@
               <div class="form-group">
                 <label>Timezone:</label>
                 <%= f.time_zone_select :timezone, nil, {}, {:class => 'form-control form-control-lg', :required => true} %>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label>User role:</label>
+                  <select class="form-control" name="user_role" id="exampleFormControlSelect1">
+                    <option value="attendee">Attendee</option>
+                    <option value="speaker">Speaker</option>
+                  </select>
               </div>
             </div>
             
@@ -80,7 +104,7 @@
             <div class="col-6">
               <div class="form-group">
                 <label>Job title:</label>
-                <%= f.text_field :title, class: "form-control form-control-lg"%>
+                <%= f.text_field :title, class: "form-control form-control-lg", required: true %>
                 <!--<textarea class="form-control form-control-lg" name="profileBio" rows="4" id="about-me"></textarea>-->
               </div>
             </div>
@@ -88,21 +112,28 @@
             <div class="col-6">
               <div class="form-group">
                 <label>Organization:</label>
-                <%= f.text_field :organization, class: "form-control form-control-lg"%>
+                <%= f.text_field :organization, class: "form-control form-control-lg", required: true %>
               </div>
             </div>
             
             <div class="col-6">
               <div class="form-group">
                 <label>City:</label>
-                <%= f.text_field :city, class: "form-control form-control-lg"%>
+                <%= f.text_field :city, class: "form-control form-control-lg", required: true %>
               </div>
             </div>
             
             <div class="col-6">
               <div class="form-group">
                 <label>Country:</label>
-                <%= f.text_field :country, class: "form-control form-control-lg"%>
+                <%= f.text_field :country, class: "form-control form-control-lg", required: true %>
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label>Bio:</label>
+                <%= f.text_area :bio, class: "form-control form-control-lg" %>
               </div>
             </div>
             

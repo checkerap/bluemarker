@@ -5,7 +5,6 @@ class Talk < ApplicationRecord
   
   has_many :papers
   
-  def speakers
-    User.with_role :talk_speaker, self
-  end
+  has_many :talk_speakers, dependent: :delete_all
+  has_many :speakers, through: :talk_speakers, :source => 'user'
 end

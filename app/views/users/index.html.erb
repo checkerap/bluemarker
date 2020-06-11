@@ -13,7 +13,7 @@
       <!--end of col-->
       <div class="col-auto">
         <a href="/users/new" class="btn btn-primary"><i class="icon-add-user mr-1"></i>Create new user</a>
-        <a href="/users/upload" class="btn btn-primary"><i class="icon-add-user mr-1"></i>Upload users csv</a>
+        <a href="/users/upload" class="btn btn-primary d-none"><i class="icon-add-user mr-1"></i>Upload users csv</a>
       </div>
       <!--end of col-->
     </div>
@@ -40,7 +40,7 @@
             <tr class="bg-white">
               <th scope="row">
                 <div class="media align-items-center">
-                  <%= render 'user_image', :user => user %>
+                  <%= render 'user_image', :user => user, :image_classes => 'avatar' %>
                   <div class="media-body">
                     <span class="h6 mb-0"><%= user.name %>
                       <% if user.title.present? %>
