@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   require 'smarter_csv'
-  before_action :authorize_organizer, only: [:index, :new, :create, :edit, :update, :destroy, :upload, :import]
+  before_action :authorize_organizer, only: [:index, :new, :create, :destroy, :upload, :import]
+  before_action :authorize_edit, only: [:edit, :update]
   
   def index
     @users = User.all
@@ -103,7 +104,17 @@ class UsersController < ApplicationController
   end
   
   private
-  
+    
+    def authorize_edit
+      @user = User.find(params[:id])
+      if current_user.present? 
+        return unless (!current_user.has_role? :organizer or current_user.id == @user.id )
+        redirect_to root_path, alert: "You don't have enough rights."
+      else
+        redirect_to root_path, alert: 'You are not signed in'  
+      end
+    end
+    
     def user_params
       params.require(:user).permit(:email, :password, :password_confirmation, :name, :title, :country, :city, :organization, :timezone, :link_website, :link_youtube, :link_facebook, :link_linkedin, :link_twitter, :bio)
     end
