@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require 'smarter_csv'
   before_action :authorize_organizer, only: [:index, :new, :create, :destroy, :upload, :import]
-  before_action :authorize_edit, only: [:edit, :update]
+  # before_action :authorize_edit, only: [:edit, :update]
   
   def index
     @users = User.all
