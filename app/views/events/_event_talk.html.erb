@@ -1,6 +1,10 @@
  <div class="row mb-4">
   <div class="col-2">
-    <div><%= talk.date.utc.in_time_zone(current_user.timezone).strftime("%I:%M %p") %></div>
+    <% if current_user.present? %>
+      <div><%= talk.date.utc.in_time_zone(current_user.timezone).strftime("%I:%M %p") %></div>
+    <% else %>
+      <div><%= talk.date.strftime("%I:%M %p") %></div>
+    <% end %>
     <div class="text-muted">
       <i class="icon-clock"></i>
       <% if talk.timespan.present? %>
