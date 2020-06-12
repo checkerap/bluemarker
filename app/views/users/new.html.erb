@@ -31,11 +31,11 @@
       <div class="row">
         <!--end of col-->
         <div class="col-12 col-md-8 order-md-1">
-          <%= form_for User.new, :html => {:class => 'row'}, url: create_user_path do |f| %>
+          <%= form_for @user, :html => {:class => 'row'}, url: create_user_path do |f| %>
             
             <div class="col-12 col-md-8 order-md-1">
       
-            <% if user.errors.any? %>
+            <% if @user.errors.any? %>
               <div id="error_explanation">
                 <h2><%= pluralize(user.errors.count, "error") %> prohibited this talk from being saved:</h2>
           
