@@ -21,7 +21,7 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: postgresql
+  adapter: ymsql2
   encoding: unicode
   pool: 30
   url: <%= ENV['DATABASE_URL'] %>
