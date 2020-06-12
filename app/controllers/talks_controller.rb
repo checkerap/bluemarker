@@ -46,7 +46,14 @@ class TalksController < ApplicationController
     @talk = Talk.new(talk_params)
     @talk.user_id = current_user.id
  
-    date = DateTime.strptime(params[:date_select], '%m/%d/%Y %H:%M %p')  
+    # date = DateTime.strptime(params[:date_select], '%m/%d/%Y %H:%M %p')  
+    # @talk.date = date
+    
+    form_date = DateTime.strptime(params[:date_select], '%m/%d/%Y %H:%M %p')  
+    p "Form date #{form_date}"
+    Time.zone = params[:talk][:timezone]
+    date = Time.zone.local(form_date.year, form_date.month, form_date.day, form_date.hour, form_date.min, 0)    
+    p "Date with timezone #{date}"
     @talk.date = date
     
     respond_to do |format|
@@ -64,9 +71,10 @@ class TalksController < ApplicationController
   # PATCH/PUT /talks/1.json
   def update
     form_date = DateTime.strptime(params[:date_select], '%m/%d/%Y %H:%M %p')  
+    p "Form date #{form_date}"
     Time.zone = params[:talk][:timezone]
     date = Time.zone.local(form_date.year, form_date.month, form_date.day, form_date.hour, form_date.min, 0)    
-    p date
+    p "Date with timezone #{date}"
     @talk.date = date
     
     respond_to do |format|
