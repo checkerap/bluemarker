@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require 'smarter_csv'
   before_action :authorize_organizer, only: [:index, :new, :create, :destroy, :upload, :import]
-  # before_action :authorize_edit, only: [:edit, :update]
+  before_action :authorize_edit, only: [:edit, :update, :change_password, :update_password]
   
   def index
     @users = User.all
@@ -27,7 +27,6 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
-    
   end
   
   def create
@@ -103,12 +102,28 @@ class UsersController < ApplicationController
     end
   end
   
+  def change_password
+    @user = User.find(params[:id])
+  end
+  
+  def update_password
+    @user = User.find(params[:id])
+    @user.update_attributes(user_params)
+    if @user.save 
+      flash[:notice] = "Password updated."
+      redirect_to "/users/sign_in"
+    else
+      flash[:notice] = "Something went wrong."
+      render :edit
+    end 
+  end
+  
   private
     
     def authorize_edit
       @user = User.find(params[:id])
       if current_user.present? 
-        return unless (!current_user.has_role? :organizer or current_user.id == @user.id )
+        return unless !(current_user.has_role? :organizer or current_user.id == @user.id)
         redirect_to root_path, alert: "You don't have enough rights."
       else
         redirect_to root_path, alert: 'You are not signed in'  

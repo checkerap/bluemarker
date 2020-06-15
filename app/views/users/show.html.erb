@@ -27,6 +27,7 @@
         <div class="col">
           <ol class="breadcrumb breadcrumb-links">
             <%= link_to 'Edit', edit_user_path(@user) %>
+            <%= link_to 'Change password', change_password_path(@user) %>
             <%= link_to 'Destroy', destroy_user_path(@user), method: :delete, data: { confirm: 'Are you sure?' } %>
           </ol>
         </div>
