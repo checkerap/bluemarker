@@ -27,6 +27,7 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
+    
   end
   
   def create
@@ -36,7 +37,7 @@ class UsersController < ApplicationController
       
       if params[:user_role] == "speaker"
         @user.add_role :speaker
-      elsif params[:user_role] == "attendee"
+      else
         @user.add_role :attendee
       end
       
@@ -63,7 +64,7 @@ class UsersController < ApplicationController
       
       if params[:user_role] == "speaker"
         @user.add_role :speaker
-      elsif params[:user_role] == "attendee"
+      else
         @user.add_role :attendee
       end
       
