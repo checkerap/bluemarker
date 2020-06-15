@@ -41,7 +41,7 @@ var talk_event_end_date = new Date(gon.talk_event_end_date)
     minDate: talk_event_start_date,
     maxDate: talk_event_end_date,
     startDate: talk_date,
-    timePickerIncrement: 30,
+    timePickerIncrement: 5,
     locale: {
       format: 'MM/DD/YYYY hh:mm A'
     }
