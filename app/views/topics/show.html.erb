@@ -1,0 +1,138 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/message_boards">Message Boards</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/message_boards"><%= @topic.message_board.title %></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current=""><%= @topic.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<% if current_user and current_user.has_role? :organizer %>
+  <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-links">
+            <% if current_user.has_role? :organizer %>
+              <%= link_to 'Edit', edit_topic_path(@topic) %>
+              <%= link_to 'Destroy', @topic, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </ol>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </nav>
+<% end %>
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <h1 class="h2 mb-2"><%= @topic.title %></h1>
+        <span><%= @topic.description %></span>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+
+<section class="space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-12">
+        <div class="card">
+          <div class="card-header bg-secondary d-flex justify-content-between">
+            <button class="btn btn-secondary" type="button" data-target="#comment-reply" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Post a reply</button>
+            <!--<form class="d-flex align-items-center">-->
+            <!--  <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+            <!--  <select class="custom-select">-->
+            <!--    <option value="alpha">Alphabetical</option>-->
+            <!--    <option value="old-new" selected="">Newest</option>-->
+            <!--    <option value="new-old">Popular</option>-->
+            <!--    <option value="recent">Recently Updated</option>-->
+            <!--  </select>-->
+            <!--</form>-->
+          </div>
+          <div class="collapse" id="comment-reply">
+            <%= form_with(model: @post, local: true, class: "card-body") do |form| %>
+              <% if @post.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+            
+                  <ul>
+                  <% @post.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                  </ul>
+                </div>
+              <% end %>
+              
+              <div class="form-group">
+                <%= form.text_area :text, class: "form-control from-control-lg", placeholder: "Type your reply here", rows: "5" %>
+              </div>
+            
+              <%= form.hidden_field :user_id, :value => current_user.id %>
+              <%= form.hidden_field :topic_id, :value => @topic.id %>
+            
+              <div class="d-flex align-items-center">
+                <button type="submit" class="btn btn-success mr-3">Submit reply</button>
+                <a href="#comment-reply" class="text-small text-muted" data-toggle="collapse" aria-expanded="true" aria-controls="comment-reply">Cancel</a>
+              </div>
+            <% end %>
+          </div>
+          <ul class="list-group list-group-flush list-group-comments">
+            
+            <% if @posts.present? %>
+              <% @posts.each do |post| %>
+                <li class="list-group-item">
+                  <div class="media">
+                    <img alt="Image" src="/img/avatar-female-2.jpg" class="avatar avatar-sm">
+                    <div class="media-body">
+                      <div class="mb-2">
+                        <span class="h6 mb-0"><%= post.user.name %></span>
+                        <!--<span class="text-muted">Making awesome products</span>-->
+                      </div>
+                      <p>
+                        <%= post.text %>
+                      </p>
+                      <!--<div class="d-flex align-items-center">-->
+                      <!--  <div class="mr-2">-->
+                      <!--    <button class="btn btn-sm btn-outline-primary">Reply</button>-->
+                      <!--    <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>&nbsp;(2)</button>-->
+                      <!--  </div>-->
+                      <!--  <small class="text-muted">1st Dec 2017 • 10:15am</small>-->
+                      <!--</div>-->
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            <% end %>                    
+
+          </ul>
+        </div>
+
+      </div>
+
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>

@@ -1,0 +1,152 @@
+<% if current_user.present? %>
+  <% if current_user.has_role? :organizer %>
+  <nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-links">
+            <a href='/message_boards/new'>Add message board</a> 
+          </ol>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </nav>
+  <% end %>
+<% end %>
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <h1 class="h2 mb-2">Message Boards</h1>
+        <!--<span>Useful for displaying API connections, subscriptions etc.</span>-->
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+<section class="flush-with-above">
+  <div class="container">
+    <!--<div class="row">-->
+    <!--  <div class="col">-->
+    <!--    <div class="d-flex justify-content-between align-items-center mb-4">-->
+    <!--      <div>-->
+    <!--        <span class="text-muted text-small">Results 1 - 8 of 8</span>-->
+    <!--      </div>-->
+    <!--      <form class="d-flex align-items-center">-->
+    <!--        <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+    <!--        <select class="custom-select">-->
+    <!--          <option value="alpha">Alphabetical</option>-->
+    <!--          <option value="old-new" selected>Newest</option>-->
+    <!--          <option value="new-old">Oldest</option>-->
+    <!--          <option value="status">Status</option>-->
+    <!--        </select>-->
+    <!--      </form>-->
+    <!--    </div>-->
+    <!--  </div>-->
+      <!--end of col-->
+    <!--</div>-->
+    <!--end of row-->
+    <div class="row">
+      <div class="col">
+        <table class="table table-borderless table-hover align-items-center">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <% @message_boards.each do |message_board| %>
+              <% if message_board.event_id.present? %>
+                <% if current_user.has_role? :event_speaker, message_board.event or current_user.has_role? :organizer %>
+                <tr class="bg-white">
+                  <th scope="row">
+                    <a class="media align-items-center" href="/message_boards/<%= message_board.id %>">
+                      <!--<img alt="Image" src="/img/logo-snapchat.svg" class="avatar rounded avatar-sm" />-->
+                      <div class="media-body">
+                        <span class="h6 mb-0"><%= message_board.title %></span>
+                        <!--<span class="text-muted">Social Media</span>-->
+                      </div>
+                    </a>
+                  </th>
+                  </td>
+                </tr>
+                <tr class="table-divider">
+                  <th></th>
+                  <td></td>
+                </tr>
+                <% end %>  
+              <% else %>
+                <tr class="bg-white">
+                  <th scope="row">
+                    <a class="media align-items-center" href="/message_boards/<%= message_board.id %>">
+                      <!--<img alt="Image" src="/img/logo-snapchat.svg" class="avatar rounded avatar-sm" />-->
+                      <div class="media-body">
+                        <span class="h6 mb-0"><%= message_board.title %></span>
+                        <!--<span class="text-muted">Social Media</span>-->
+                      </div>
+                    </a>
+                  </th>
+                  </td>
+                </tr>
+                <tr class="table-divider">
+                  <th></th>
+                  <td></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<table>-->
+<!--  <thead>-->
+<!--    <tr>-->
+<!--      <th>Is private</th>-->
+<!--      <th>Event</th>-->
+<!--      <th>Title</th>-->
+<!--      <th>Description</th>-->
+<!--      <th colspan="3"></th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+
+<!--  <tbody>-->
+<!--    <% @message_boards.each do |message_board| %>-->
+<!--      <tr>-->
+<!--        <td><%= message_board.is_private %></td>-->
+<!--        <td><%= message_board.event %></td>-->
+<!--        <td><%= message_board.title %></td>-->
+<!--        <td><%= message_board.description %></td>-->
+<!--        <td><%= link_to 'Show', message_board %></td>-->
+<!--        <td><%= link_to 'Edit', edit_message_board_path(message_board) %></td>-->
+<!--        <td><%= link_to 'Destroy', message_board, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+<!--      </tr>-->
+<!--    <% end %>-->
+<!--  </tbody>-->
+<!--</table>-->

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_11_184004) do
+ActiveRecord::Schema.define(version: 2020_06_14_195714) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -95,6 +95,16 @@ ActiveRecord::Schema.define(version: 2020_06_11_184004) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "message_boards", force: :cascade do |t|
+    t.boolean "is_private"
+    t.integer "event_id"
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_message_boards_on_event_id"
+  end
+
   create_table "news", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -130,6 +140,17 @@ ActiveRecord::Schema.define(version: 2020_06_11_184004) do
     t.datetime "updated_at", null: false
     t.index ["talk_id"], name: "index_papers_on_talk_id"
     t.index ["user_id"], name: "index_papers_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.text "text"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "topic_id"
+    t.index ["topic_id"], name: "index_posts_on_topic_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -397,6 +418,17 @@ ActiveRecord::Schema.define(version: 2020_06_11_184004) do
     t.index ["messageboard_id"], name: "index_thredded_user_topic_read_states_on_messageboard_id"
     t.index ["user_id", "messageboard_id"], name: "thredded_user_topic_read_states_user_messageboard"
     t.index ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "last_post_id"
+    t.integer "message_board_id"
+    t.index ["last_post_id"], name: "index_topics_on_last_post_id"
+    t.index ["message_board_id"], name: "index_topics_on_message_board_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -73,7 +73,10 @@ class EventsController < ApplicationController
         
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
-        user.add_role :moderator, Event.find_by(id: @event.id)
+        # Folosim chestia asta? 
+        # user.add_role :moderator, Event.find_by(id: @event.id)
+        
+        MessageBoard.create(title: @event.title, event_id: @event.id)
       else
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }

@@ -53,7 +53,7 @@ gem 'smarter_csv'
 # Gon
 gem 'gon'
 # Thredded
-gem 'thredded'
+# gem 'thredded'
 gem 'pg'
 
 group :development, :test do

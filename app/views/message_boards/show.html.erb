@@ -1,0 +1,117 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/message_board">Message boards</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current=""><%= @message_board.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<% if current_user and current_user.has_role? :organizer %>
+  <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-links">
+            <% if current_user.has_role? :organizer %>
+              <%= link_to 'Edit', edit_message_board_path(@message_board) %>
+              <%= link_to 'Destroy', @message_board, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <a href='/topics/new?message_board=<%= @message_board.id %>'>Add topic</a>
+            <% end %>
+          </ol>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </nav>
+<% end %>
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <h1 class="h2 mb-2"><%= @message_board.title %></h1>
+        <span><%= @message_board.description %></span>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+<section class="flush-with-above">
+  <div class="container">
+    <!--<div class="row">-->
+    <!--  <div class="col">-->
+    <!--    <div class="d-flex justify-content-between align-items-center mb-4">-->
+    <!--      <div>-->
+    <!--        <span class="text-muted text-small">Results 1 - 8 of 8</span>-->
+    <!--      </div>-->
+    <!--      <form class="d-flex align-items-center">-->
+    <!--        <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
+    <!--        <select class="custom-select">-->
+    <!--          <option value="alpha">Alphabetical</option>-->
+    <!--          <option value="old-new" selected>Newest</option>-->
+    <!--          <option value="new-old">Oldest</option>-->
+    <!--          <option value="status">Status</option>-->
+    <!--        </select>-->
+    <!--      </form>-->
+    <!--    </div>-->
+    <!--  </div>-->
+      <!--end of col-->
+    <!--</div>-->
+    <!--end of row-->
+    <div class="row">
+      <div class="col">
+        <table class="table table-borderless table-hover align-items-center">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <% if @topics.present? %>
+              <% @topics.each do |topic| %>
+              <tr class="bg-white">
+                <th scope="row">
+                  <a class="media align-items-center" href="/topics/<%= topic.id %>">
+                    <!--<img alt="Image" src="/img/logo-snapchat.svg" class="avatar rounded avatar-sm" />-->
+                    <div class="media-body">
+                      <span class="h6 mb-0"><%= topic.title %></span>
+                      <!--<span class="text-muted">Social Media</span>-->
+                    </div>
+                  </a>
+                </th>
+                </td>
+              </tr>
+              <tr class="table-divider">
+                <th></th>
+                <td></td>
+              </tr>
+              <% end %>
+            <% end %>
+            
+          </tbody>
+        </table>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
