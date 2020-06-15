@@ -9,7 +9,8 @@
       <i class="icon-clock"></i>
       <% if talk.timespan.present? %>
         <% Time.at(talk.timespan*60).utc.strftime "%H:%M" %>
-        <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h <% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %>
+        <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h <% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %><br>
+        <%= talk.category.name %>
       <% end %>
     </div>
   </div>
