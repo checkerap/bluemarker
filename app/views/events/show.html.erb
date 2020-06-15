@@ -413,7 +413,7 @@
               </h3>
               
               <% if counter != 0 %>
-                <% @event.talks.order(:date => :asc).each do |talk| %>
+                <% @event.talks.order(:date => :asc, :title => :asc).each do |talk| %>
                   <% if talk.date.to_date == day['day_date'] %>
                     <%= render 'event_talk', talk: talk %>
                   <% end %>
