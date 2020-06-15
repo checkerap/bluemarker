@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     if upload.present? 
       @users = SmarterCSV.process(upload.tempfile, options={:force_utf8 => true})
       @users.each do |user|
-        new_user = User.create(name: user[:name], email: user[:email], password: "newpassword", organization: user[:institution], country: user[:country])
+        new_user = User.create(name: user[:name], email: user[:email], password: "eden2020", organization: user[:institution], country: user[:country])
         
         p user[:role]
         if user[:role] == "Speaker"
