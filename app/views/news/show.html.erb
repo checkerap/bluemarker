@@ -43,11 +43,15 @@
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-7">
         <h1 class="display-4"><%= @news.title %></h1>
-        <span class="lead">Short description</span>
-        <div class="media blog-post-author">
+        
+        <% if @news.summary %>
+        <span class="lead"><%= @news.summary %></span>
+        <% end %>
+        
+        <div class="media blog-post-author d-none">
           <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-sm mr-3" />
           <div class="media-body">
-            <span class="h6">Author name</span>
+            <span class="h6 d-none">Author name</span>
             <span class="text-small"><%= @news.created_at.to_date %></span>
           </div>
         </div>
@@ -70,7 +74,6 @@
         <% if @news.image.attached? %>
           <%= image_tag(@news.image, class: "img-fluid figure-img rounded") %>
         <% end %>
-        <figcaption class="figure-caption">Photo credit: Death To The Stock Photo</figcaption>
       </figure>
       <div class="col-12 col-md-8 col-lg-6">
         <%= @news.description %>
@@ -87,7 +90,7 @@
 <!--end of section-->
 <section>
   <div class="container">
-    <div class="row justify-content-center mb-5">
+    <div class="row justify-content-center mb-5 d-none">
       <div class="col-auto text-center">
         <span class="title-decorative">Share Article</span>
         <ul class="list-inline">
@@ -116,7 +119,7 @@
       <!--end of col-->
     </div>
     <!--end of row-->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center d-none">
       <div class="col-12 col-md-6 col-lg-4 text-center">
         <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-lg mb-3" />
         <h5>Cameron Vasquez</h5>
@@ -152,11 +155,11 @@
           </a>
           <div class="card-body">
             <a href="/news/<% news.id %>">
-              <h4 class="card-title mb-3"><% news.title %></h4>
+              <h4 class="card-title mb-3"><%= news.title %></h4>
             </a>
-            <p class="card-text">Short summary</p>
+            <p class="card-text"><%= truncate(news.summary, length: 200) %></p>
           </div>
-          <div class="card-footer card-footer-borderless">
+          <div class="card-footer card-footer-borderless d-none">
             <div class="media blog-post-author">
               <img alt="Image" src="/img/avatar-female-1.jpg" class="avatar avatar-xs" />
               <div class="media-body">
