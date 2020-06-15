@@ -147,16 +147,16 @@
       
       <li class="col-12 col-md-6 col-lg-4">
         <div class="card card-lg">
-          <a href="/news/<% news.id %>">
+          <%= link_to news_path(news) do %>
             <!--<img class="card-img-top" src="/img/photo-man-box.jpg" alt="There is no competition">-->
             <% if news.image.attached? %>
               <%= image_tag(news.image, class: "card-img-top") %>
             <% end %>
-          </a>
+          <% end %>
           <div class="card-body">
-            <a href="/news/<% news.id %>">
+            <%= link_to news_path(news) do %>
               <h4 class="card-title mb-3"><%= news.title %></h4>
-            </a>
+            <% end %>
             <p class="card-text"><%= truncate(news.summary, length: 200) %></p>
           </div>
           <div class="card-footer card-footer-borderless d-none">
