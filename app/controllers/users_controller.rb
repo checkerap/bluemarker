@@ -86,16 +86,15 @@ class UsersController < ApplicationController
   def import
     upload = params[:file]
     if upload.present? 
-      @users = SmarterCSV.process(upload.tempfile)
+      @users = SmarterCSV.process(upload.tempfile, options={:force_utf8 => true})
       @users.each do |user|
-        user = User.create(name: user[:name], email: user[:email], password: "newpassword")
+        new_user = User.create(name: user[:name], email: user[:email], password: "newpassword", organization: user[:institution], country: user[:country])
         
-        p params[:user_role]
-        
-        if params[:user_role] == "speaker"
-          user.add_role :speaker
-        elsif params[:user_role] == "attendee"
-          user.add_role :attendee
+        p user[:role]
+        if user[:role] == "Speaker"
+          new_user.add_role :speaker
+        elsif user[:role] == "Attendee"
+          new_user.add_role :attendee
         end
       end
       redirect_to "/users/upload", notice: "Users imported."
