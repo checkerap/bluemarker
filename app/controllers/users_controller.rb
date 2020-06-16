@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :authorize_edit, only: [:edit, :update, :change_password, :update_password]
   
   def index
-    @users = User.all
+    @users = User.all.order(:name)
   end
   
   def show
