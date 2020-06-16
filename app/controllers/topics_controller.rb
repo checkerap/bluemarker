@@ -10,13 +10,14 @@ class TopicsController < ApplicationController
   # GET /topics/1
   # GET /topics/1.json
   def show
-    @post = Post.new
-    @posts = Post.where(topic_id: @topic.id)
+    @post_new = Post.new
+    @posts = Post.where(topic_id: @topic.id).order(:created_at).page params[:page]
   end
 
   # GET /topics/new
   def new
     @topic = Topic.new
+    @message_board = MessageBoard.find(params[:message_board])
   end
 
   # GET /topics/1/edit
@@ -58,7 +59,7 @@ class TopicsController < ApplicationController
   def destroy
     @topic.destroy
     respond_to do |format|
-      format.html { redirect_to topics_url, notice: 'Topic was successfully destroyed.' }
+      format.html { redirect_to "/message_boards/#{@topic.message_board.id}", notice: 'Topic was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

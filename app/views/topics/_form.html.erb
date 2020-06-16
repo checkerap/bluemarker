@@ -1,31 +1,66 @@
-<%= form_with(model: topic, local: true) do |form| %>
-  <% if topic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
-
-      <ul>
-      <% topic.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="general" role="tabpanel">
+    <div class="container">
+      <!--end of row-->
+      <hr>
+      <div class="row mb-4">
+        <div class="col">
+          <h5>Topic Details</h5>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <div class="row">
+        <!--end of col-->
+        <div class="col-12 col-md-8 order-md-1">
+          <%= form_with(model: topic, local: true) do |form| %>
+            <% if topic.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+          
+                <ul>
+                <% topic.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="username">Title:</label>
+                <%= form.text_field :title, class: "form-control form-control-lg" %>
+                <!--<small>This will be displayed on your public profile</small>-->
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Description:</label>
+                <%= form.text_area :description, class: "form-control form-control-lg", rows: "10" %>
+                <!--<textarea class="form-control form-control-lg" name="profileBio" rows="4" id="about-me"></textarea>-->
+              </div>
+            </div>
+            
+            <% if params[:action] == "new" %>
+              <%= form.hidden_field :message_board_id, :value => params[:message_board] %>
+            <% end %>
+            
+            <div class="col-6">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+            
+          <% end %>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <hr>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <!--end of container-->
   </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <% if params[:action] == "new" %>
-    <%= form.hidden_field :message_board_id, :value => params[:message_board] %>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+  <!--end of tab pane-->
+</div>
+<!--end of tabs content-->

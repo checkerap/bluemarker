@@ -1,5 +1,22 @@
-<h1>New Topic</h1>
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/message_boards">Message Boards</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/message_boards/<%= @message_board.id %>"><%= @message_board.title %></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">New Topic</li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
 
 <%= render 'form', topic: @topic %>
-
-<%= link_to 'Back', topics_path %>

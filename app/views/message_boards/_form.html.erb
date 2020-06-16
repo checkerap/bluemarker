@@ -1,37 +1,62 @@
-<%= form_with(model: message_board, local: true) do |form| %>
-  <% if message_board.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(message_board.errors.count, "error") %> prohibited this message_board from being saved:</h2>
-
-      <ul>
-      <% message_board.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="general" role="tabpanel">
+    <div class="container">
+      <!--end of row-->
+      <hr>
+      <div class="row mb-4">
+        <div class="col">
+          <h5>Message Board Details</h5>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <div class="row">
+        <!--end of col-->
+        <div class="col-12 col-md-8 order-md-1">
+          <%= form_with(model: message_board, local: true) do |form| %>
+            <% if message_board.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(message_board.errors.count, "error") %> prohibited this message_board from being saved:</h2>
+          
+                <ul>
+                <% message_board.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            <% end %>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="username">Title:</label>
+                <%= form.text_field :title, class: "form-control form-control-lg" %>
+                <!--<small>This will be displayed on your public profile</small>-->
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group">
+                <label for="about-me">Description:</label>
+                <%= form.text_area :description, class: "form-control form-control-lg", rows: "10" %>
+                <!--<textarea class="form-control form-control-lg" name="profileBio" rows="4" id="about-me"></textarea>-->
+              </div>
+            </div>
+            
+            <div class="col-6">
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+            
+          <% end %>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+      <hr>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :is_private %>
-    <%= form.check_box :is_private %>
+    <!--end of container-->
   </div>
-
-  <div class="field">
-    <%= form.label :event_id %>
-    <%= form.text_field :event_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+  <!--end of tab pane-->
+</div>
+<!--end of tabs content-->

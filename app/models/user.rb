@@ -20,5 +20,5 @@ class User < ApplicationRecord
   
   has_many :papers, through: :talks
   
-  validates :name, :email, :timezone, :title, :organization, :city, :country, presence: true
+  validates :name, :email, :country, presence: true
 end

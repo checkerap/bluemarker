@@ -55,6 +55,8 @@ gem 'gon'
 # Thredded
 # gem 'thredded'
 gem 'pg'
+# Kaminari
+gem 'kaminari'
 
 group :development, :test do
   gem 'sqlite3'
