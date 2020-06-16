@@ -9,7 +9,8 @@
       <i class="icon-clock"></i>
       <% if talk.timespan.present? %>
         <% Time.at(talk.timespan*60).utc.strftime "%H:%M" %>
-        <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h <% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %>
+        <% if (talk.timespan / 60) > 0 %><%= talk.timespan / 60 %>h <% end %><% if (talk.timespan % 60) > 0 %><%= talk.timespan % 60 %>m<% end %><br>
+        <%= talk.category.name %>
       <% end %>
     </small>
   </div>
@@ -17,7 +18,9 @@
     <h5><%= link_to talk.title, talk_path(talk) %></h5>
 
     <% talk.speakers.order(:name => :asc).each do |speaker| %>
-      <%= render 'events/talk_speaker', :user => speaker %>
+      <div class="mb-1">
+        <%= render 'events/talk_speaker', :user => speaker %>
+      </div>
     <% end %>
   </div>
   <div class="col-2">

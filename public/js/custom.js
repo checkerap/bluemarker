@@ -30,8 +30,7 @@ var talk_date = gon.talk_date
 // var talk_date_utc = talk_date.toUTCString(); 
 
 var talk_event_start_date = new Date(gon.talk_event_start_date)
-var talk_event_end_date = new Date(gon.talk_event_end_date)
-
+// var talk_event_end_date = new Date(gon.talk_event_end_date)
 
 
   $('input[name="date_select"]').daterangepicker({
@@ -39,9 +38,9 @@ var talk_event_end_date = new Date(gon.talk_event_end_date)
     singleDatePicker: true,
     showDropdowns: false,
     minDate: talk_event_start_date,
-    maxDate: talk_event_end_date,
+    // maxDate: talk_event_end_date,
     startDate: talk_date,
-    timePickerIncrement: 30,
+    timePickerIncrement: 5,
     locale: {
       format: 'MM/DD/YYYY hh:mm A'
     }

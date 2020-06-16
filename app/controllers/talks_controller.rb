@@ -25,6 +25,16 @@ class TalksController < ApplicationController
     gon.talk_date = Date.today.strftime('%m/%d/%Y %I:%M')
     gon.talk_event_start_date   = @event.start_date
     gon.talk_event_end_date     = @event.end_date
+    
+    i = 5
+    @values = []
+    while i <= 300 do
+      i = i + 5
+      @values << i
+    end
+    
+    p @values
+    
   end
 
   # GET /talks/1/edit
@@ -38,6 +48,13 @@ class TalksController < ApplicationController
       gon.talk_event_start_date = @event.start_date
       gon.talk_event_end_date = @event.end_date
     # End
+    
+    i = 5
+    @values = []
+    while i <= 300 do
+      i = i + 5
+      @values << i
+    end
   end
 
   # POST /talks

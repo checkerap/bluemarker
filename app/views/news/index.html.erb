@@ -15,38 +15,37 @@
   <!--end of container-->
 </nav>
 
-<section class="space-lg">
-  <img alt="Image" src="/img/graphic-bg-clouds-5.png" class="bg-image" />
-  <div class="container">
-    <div class="row mb-4 justify-content-center text-center">
-      <div class="col-12 col-md-10 col-lg-9">
-        <h1 class="display-4">Great news, daily.</h1>
-        <span class="lead">Subscribe and get our weekly newsletter in your inbox</span>
-      </div>
+<!--<section class="space-lg">-->
+<!--  <img alt="Image" src="/img/graphic-bg-clouds-5.png" class="bg-image" />-->
+<!--  <div class="container">-->
+<!--    <div class="row mb-4 justify-content-center text-center">-->
+<!--      <div class="col-12 col-md-10 col-lg-9">-->
+<!--        <h1 class="display-4">Great news, daily.</h1>-->
+<!--        <span class="lead">Subscribe and get our weekly newsletter in your inbox</span>-->
+<!--      </div>-->
       <!--end of col-->
-    </div>
+<!--    </div>-->
     <!--end of row-->
-    <form>
-      <div class="form-row justify-content-center">
-        <div class="col-auto col-md-5 col-lg-4">
-          <div class="form-group">
-            <input class="form-control form-control-lg" type="email" name="email" placeholder="Email Address" />
-            <small>We will never share your email address</small>
-          </div>
-        </div>
-        <div class="col-auto">
-          <button type="submit" class="btn btn-lg btn-primary">Subscribe now</button>
-        </div>
-      </div>
+<!--    <form>-->
+<!--      <div class="form-row justify-content-center">-->
+<!--        <div class="col-auto col-md-5 col-lg-4">-->
+<!--          <div class="form-group">-->
+<!--            <input class="form-control form-control-lg" type="email" name="email" placeholder="Email Address" />-->
+<!--            <small>We will never share your email address</small>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-auto">-->
+<!--          <button type="submit" class="btn btn-lg btn-primary">Subscribe now</button>-->
+<!--        </div>-->
+<!--      </div>-->
       <!--end of row-->
-    </form>
-  </div>
+<!--    </form>-->
+<!--  </div>-->
   <!--end of container-->
-</section>
+<!--</section>-->
 <!--end of section-->
 <section class="flush-with-above">
   <div class="container">
-    <%= link_to 'New', new_news_path %>
     <ul class="row mb-3 feature-list feature-list-sm">
       
         
@@ -63,9 +62,9 @@
             <a href="/news/<%= news.id %>">
               <h4 class="card-title mb-3"><%= news.title %></h4>
             </a>
-            <p class="card-text">Short summary</p>
+            <p class="card-text"><%= truncate(news.summary, length: 200) %></p>
           </div>
-          <div class="card-footer card-footer-borderless">
+          <div class="card-footer card-footer-borderless d-none">
             <div class="media blog-post-author">
               <img alt="Image" src="/img/avatar-male-1.jpg" class="avatar avatar-xs" />
               <div class="media-body">

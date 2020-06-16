@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     get 'users' => 'users#index'
     get 'users/upload' => 'users#upload'
     get 'users/new' => 'users#new' 
+    get 'users/change_password/:id' => 'users#change_password', as: :change_password
     get 'users/edit/:id' => 'users#edit', as: :edit_user
     get 'users/:id' => 'users#show'
     # Actions
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
     post 'update_user/:id' => 'users#update', as: :update_user
     delete 'delete_user/:id' => 'users#destroy', as: :destroy_user
     post 'import' => 'users#import'
+    post 'update_password/:id' => 'users#update_password', as: :update_password
   
   # Events
     # Event talks

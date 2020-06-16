@@ -5,7 +5,7 @@
       <hr>
       <div class="row mb-4">
         <div class="col">
-          <h5>Talk Details</h5>
+          <h5>Session Details</h5>
         </div>
         <!--end of col-->
       </div>
@@ -70,7 +70,7 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="about-me">Timespan:</label>
-                <%= form.select(:timespan, [["15m", "15"], ["30m", "30"], ["45m", "45"], ["1h", "60"], ["1h 15m", "75"], ["1h 30m", "90"], ["1h 45m", "105"], ["2h", "120"], ["2h 15m", "135"], ["2h 30m", "150"], ["2h 45m", "165"], ["3h", "180"], ["3h 15m", "195"], ["3h 30m", "210"], ["3h 45m", "225"], ["4h", "240"], ["4h 15m", "255"], ["4h 30m", "270"], ["4h 45m", "285"], ["5h", "300"]], {}, class: "form-control form-control-lg") %>
+                <%= form.select(:timespan, @values, {}, class: "form-control form-control-lg") %>
               </div>
             </div>
             

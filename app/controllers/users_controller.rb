@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   require 'smarter_csv'
   before_action :authorize_organizer, only: [:index, :new, :create, :destroy, :upload, :import]
-  # before_action :authorize_edit, only: [:edit, :update]
+  before_action :authorize_edit, only: [:edit, :update, :change_password, :update_password]
   
   def index
     @users = User.all
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       
       if params[:user_role] == "speaker"
         @user.add_role :speaker
-      elsif params[:user_role] == "attendee"
+      else
         @user.add_role :attendee
       end
       
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
       
       if params[:user_role] == "speaker"
         @user.add_role :speaker
-      elsif params[:user_role] == "attendee"
+      else
         @user.add_role :attendee
       end
       
@@ -85,16 +85,15 @@ class UsersController < ApplicationController
   def import
     upload = params[:file]
     if upload.present? 
-      @users = SmarterCSV.process(upload.tempfile)
+      @users = SmarterCSV.process(upload.tempfile, options={:force_utf8 => true})
       @users.each do |user|
-        user = User.create(name: user[:name], email: user[:email], password: "newpassword")
+        new_user = User.create(name: user[:name], email: user[:email], password: "eden2020", organization: user[:institution], country: user[:country])
         
-        p params[:user_role]
-        
-        if params[:user_role] == "speaker"
-          user.add_role :speaker
-        elsif params[:user_role] == "attendee"
-          user.add_role :attendee
+        p user[:role]
+        if user[:role] == "Speaker"
+          new_user.add_role :speaker
+        elsif user[:role] == "Attendee"
+          new_user.add_role :attendee
         end
       end
       redirect_to "/users/upload", notice: "Users imported."
@@ -103,12 +102,28 @@ class UsersController < ApplicationController
     end
   end
   
+  def change_password
+    @user = User.find(params[:id])
+  end
+  
+  def update_password
+    @user = User.find(params[:id])
+    @user.update_attributes(user_params)
+    if @user.save 
+      flash[:notice] = "Password updated."
+      redirect_to "/users/sign_in"
+    else
+      flash[:notice] = "Something went wrong."
+      render :edit
+    end 
+  end
+  
   private
     
     def authorize_edit
       @user = User.find(params[:id])
       if current_user.present? 
-        return unless (!current_user.has_role? :organizer or current_user.id == @user.id )
+        return unless !(current_user.has_role? :organizer or current_user.id == @user.id)
         redirect_to root_path, alert: "You don't have enough rights."
       else
         redirect_to root_path, alert: 'You are not signed in'  
