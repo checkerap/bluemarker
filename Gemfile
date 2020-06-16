@@ -54,8 +54,10 @@ gem 'smarter_csv'
 # Gon
 gem 'gon'
 # Thredded
-gem 'thredded'
+# gem 'thredded'
 gem 'pg'
+# Kaminari
+gem 'kaminari'
 
 group :development, :test do
   gem 'sqlite3'

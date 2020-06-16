@@ -1,0 +1,110 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/message_boards">Message boards</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current=""><%= @message_board.title %></li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+
+<% if current_user and current_user.has_role? :organizer %>
+  <nav aria-label="breadcrumb" role="navigation" class="bg-dark text-white">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col">
+          <ol class="breadcrumb breadcrumb-links">
+            <% if current_user.has_role? :organizer %>
+              <%= link_to 'Edit', edit_message_board_path(@message_board) %>
+              <%= link_to 'Destroy', @message_board, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <a href='/topics/new?message_board=<%= @message_board.id %>'>Add topic</a>
+            <% end %>
+          </ol>
+        </div>
+        <!--end of col-->
+      </div>
+      <!--end of row-->
+    </div>
+    <!--end of container-->
+  </nav>
+<% end %>
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <h1 class="h2 mb-2"><%= @message_board.title %></h1>
+        <span><%= @message_board.description %></span>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->
+
+<section class="space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-12">
+        <div class="card">
+          <% if current_user and current_user.has_role? :organizer %>
+            <div class="card-header bg-secondary d-flex justify-content-between">
+              <a href='/topics/new?message_board=<%= @message_board.id %>' class="btn btn-secondary">Add topic</a>
+            </div>
+          <% end %>
+          
+          <ul class="list-group list-group-flush list-group-comments">
+            
+            <% if @topics.present? %>
+              <% @topics.each do |topic| %>
+                <a href="/topics/<%= topic.id %>">
+                  <li class="list-group-item topic-item">
+                    <div class="media">
+                      <!--<img alt="Image" src="/img/avatar-female-2.jpg" class="avatar avatar-sm">-->
+                      <div class="media-body">
+                        <div class="mb-2">
+                          <span class="h4 mb-0"><%= topic.title %></span>
+                          <span class="text-muted"><%= topic.description %></span>
+                        </div>
+                        <div>
+                          
+                          <% if current_user %>
+                            <small class="text-muted">Updated: <%= topic.updated_at.utc.in_time_zone(current_user.timezone).strftime("%-d %B %Y • %I:%M %p") %></small>
+                          <% else %>
+                            <small class="text-muted">Updated: <%= topic.updated_at.strftime("%-d %B %Y • %I:%M %p") %></small>
+                          <% end %>
+                          
+                        </div>
+                      </div>
+                      <div class="media-right">
+                        <div class="">
+                          <%= pluralize(topic.posts.count, 'post') %>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </a>
+              <% end %>
+            <% end %>                    
+          
+        </div>
+
+      </div>
+
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
