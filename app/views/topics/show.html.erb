@@ -101,12 +101,16 @@
               <% @posts.each do |post| %>
                 <li class="list-group-item">
                   <div class="media">
-                    <%= render 'user_image', :user => post.user, :image_classes => 'avatar avatar-sm' %>
+                    <a href="/users/<%= post.user.id %>" class="mr-2">
+                      <%= render 'user_image', :user => post.user, :image_classes => 'avatar avatar-sm' %>
+                    </a>
                     <!--<img alt="Image" src="/img/avatar-female-2.jpg" class="avatar avatar-sm">-->
                     <div class="media-body">
                       <div class="mb-2">
-                        <span class="h6 mb-0"><%= post.user.name %></span>
-                        <span class="text-muted"><%= post.user.title %>, <%= post.user.organization %></span>
+                        <a href="/users/<%= post.user.id %>">
+                          <span class="h6 mb-0"><%= post.user.name %></span>
+                        </a>
+                        <span class="text-muted"><%= post.user.title_organization %></span>
                         <!--<span class="text-muted">Making awesome products</span>-->
                       </div>
                       <p>

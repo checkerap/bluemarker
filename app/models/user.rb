@@ -21,4 +21,12 @@ class User < ApplicationRecord
   has_many :papers, through: :talks
   
   validates :name, :email, :country, presence: true
+  
+  def title_organization 
+    parts = []
+    parts << self.title unless self.title.blank?
+    parts << self.organization unless self.organization.blank?
+    
+    parts.join(', ')
+  end
 end

@@ -2,7 +2,7 @@
   <%= render 'users/user_image', user: user, image_classes: 'avatar avatar-sm mr-3' %>
   <div class="media-body">
     <span class="h6 mb-0"><%= user.name %></span>
-    <% if user.title.present? && user.organization.present? %>
+    <% if user.title_organization %>
     <span class="text-muted"><%= user.title %>, <%= user.organization %></span>
     <% end %>
   </div>

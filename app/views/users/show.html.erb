@@ -45,16 +45,13 @@
           <div class="media-body">
             <div class="mb-3">
               <h1 class="h2 mb-2"><%= @user.name %></h1>
-              <h5><%= @user.title %>, <%= @user.organization %></h5>
+              <h5><%= @user.title_organization %></h5>
               <span class="text-muted"><i class="icon-location"></i> <%= @user.city %>, <%= @user.country %></span><br>
             </div>
             <p>
-              Bit of a go-getter me, creating lovely things that help others. You'll most often find me out back in the hammock, listening to tunes and bending pixels to my will.
+              <%= markdown(@user.bio) %>
             </p>
             <div>
-              <!--<button class="btn btn-outline-primary" data-toggle="button"><i class="icon-add-user"></i> Follow</button>-->
-              <!--<button class="btn btn-outline-primary"><i class="icon-mail"></i></button>-->
-
               <% if @social == true %>
                 <div class="dropdown d-inline-block">
                   <button class="btn btn-outline-primary dropdown-toggle dropdown-toggle-no-arrow" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
