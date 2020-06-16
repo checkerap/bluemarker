@@ -58,7 +58,21 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    topic = @post.topic 
+    
+    if @post.topic == @post.topic.last_post 
+      @post.topic.last_post = nil
+      @post.topic.save 
+    end
+    
     @post.destroy
+    
+    last_post = topic.posts.last 
+    if last_post
+      topic.last_post = last_post 
+      topic.save 
+    end
+    
     respond_to do |format|
       format.html { redirect_to "/topics/#{@post.topic_id}", notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }

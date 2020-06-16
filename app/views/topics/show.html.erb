@@ -43,6 +43,11 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
+        <div class="mb-2">
+          <%= link_to message_board_path(@topic.message_board) do %>
+            <i class="icon-arrow-bold-left"></i> back to board
+          <% end %>
+        </div>
         <h1 class="h2 mb-2"><%= @topic.title %></h1>
         <span><%= @topic.description %></span>
       </div>
@@ -58,18 +63,12 @@
     <div class="row justify-content-between">
       <div class="col-12 col-md-12">
         <div class="card">
+          <% if current_user %>
           <div class="card-header bg-secondary d-flex justify-content-between">
             <button class="btn btn-secondary" type="button" data-target="#comment-reply" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Post a reply</button>
-            <!--<form class="d-flex align-items-center">-->
-            <!--  <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
-            <!--  <select class="custom-select">-->
-            <!--    <option value="alpha">Alphabetical</option>-->
-            <!--    <option value="old-new" selected="">Newest</option>-->
-            <!--    <option value="new-old">Popular</option>-->
-            <!--    <option value="recent">Recently Updated</option>-->
-            <!--  </select>-->
-            <!--</form>-->
           </div>
+          
+          
           <div class="collapse" id="comment-reply">
             <%= form_with(model: @post_new, local: true, class: "card-body") do |form| %>
               <% if @post_new.errors.any? %>
@@ -97,6 +96,8 @@
               </div>
             <% end %>
           </div>
+          <% end %>
+          
           <ul class="list-group list-group-flush list-group-comments">
             
             <% if @posts.present? %>
@@ -108,26 +109,20 @@
                     <div class="media-body">
                       <div class="mb-2">
                         <span class="h6 mb-0"><%= post.user.name %></span>
-                        <span class="text-muted"><%= post.user.title %></span>
+                        <span class="text-muted"><%= post.user.title %>, <%= post.user.organization %></span>
                         <!--<span class="text-muted">Making awesome products</span>-->
                       </div>
                       <p>
-                        <%= post.text %>
+                        <%= markdown(post.text) %>
                       </p>
                       <div class="d-flex align-items-center">
-                        <!--<div class="mr-2">-->
-                        <!--  <button class="btn btn-sm btn-outline-primary">Reply</button>-->
-                        <!--  <button class="btn btn-sm btn-outline-primary"><i class="icon-thumbs-up"></i>&nbsp;(2)</button>-->
-                        <!--</div>-->
-                        
-                        <% if current_user.present? and (current_user.id == post.user_id or current_user.has_role? :organizer) %>
-                          <div class="mr-2">
-                            <button class="btn btn-sm btn-primary" type="button" data-target="#comment-reply-<%= post.id %>" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Edit</button>
-                            <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-primary" %>
-                          </div>
-                        <% end %>
-                        
-                        <small class="text-muted"><%= post.created_at.utc.in_time_zone(current_user.timezone).strftime("%-d %B %Y • %I:%M %p") %></small>
+                        <small class="text-muted">
+                          <% if current_user %>
+                            <%= post.created_at.utc.in_time_zone(current_user.timezone).strftime("%-d %B %Y • %I:%M %p") %>
+                          <% else %>
+                            <%= post.created_at.strftime("%-d %B %Y • %I:%M %p") %>
+                          <% end %>
+                        </small>
                       </div>
                       
                       <% if current_user.present? and (current_user.id == post.user_id or current_user.has_role? :organizer) %>
@@ -158,22 +153,24 @@
                       <% end %>
                       
                     </div>
+                    <div class="media-right">
+                      <div class="mt-2">
+                        <% if current_user.present? and (current_user.id == post.user_id or current_user.has_role? :organizer) %>
+                          <div class="mr-2">
+                            <button class="btn btn-sm btn-primary" type="button" data-target="#comment-reply-<%= post.id %>" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Edit</button>
+                            <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-primary" %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
                   </div>
                 </li>
               <% end %>
             <% end %>                    
           
+          <% if current_user %>
           <div class="card-header bg-secondary d-flex justify-content-between">
             <button class="btn btn-secondary" type="button" data-target="#comment-reply-second" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Post a reply</button>
-            <!--<form class="d-flex align-items-center">-->
-            <!--  <span class="mr-2 text-muted text-small text-nowrap">Sort by:</span>-->
-            <!--  <select class="custom-select">-->
-            <!--    <option value="alpha">Alphabetical</option>-->
-            <!--    <option value="old-new" selected="">Newest</option>-->
-            <!--    <option value="new-old">Popular</option>-->
-            <!--    <option value="recent">Recently Updated</option>-->
-            <!--  </select>-->
-            <!--</form>-->
           </div>
           <div class="collapse" id="comment-reply-second">
             <%= form_with(model: @post_new, local: true, class: "card-body") do |form| %>
@@ -202,6 +199,7 @@
               </div>
             <% end %>
           </div>
+          <% end %>
           
           <%= paginate @posts %>
           

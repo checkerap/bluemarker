@@ -73,9 +73,23 @@
                     <div class="media">
                       <!--<img alt="Image" src="/img/avatar-female-2.jpg" class="avatar avatar-sm">-->
                       <div class="media-body">
-                        <div class="">
-                          <span class="h6 mb-0"><%= topic.title %></span>
+                        <div class="mb-2">
+                          <span class="h4 mb-0"><%= topic.title %></span>
                           <span class="text-muted"><%= topic.description %></span>
+                        </div>
+                        <div>
+                          
+                          <% if current_user %>
+                            <small class="text-muted">Updated: <%= topic.updated_at.utc.in_time_zone(current_user.timezone).strftime("%-d %B %Y • %I:%M %p") %></small>
+                          <% else %>
+                            <small class="text-muted">Updated: <%= topic.updated_at.strftime("%-d %B %Y • %I:%M %p") %></small>
+                          <% end %>
+                          
+                        </div>
+                      </div>
+                      <div class="media-right">
+                        <div class="">
+                          <%= pluralize(topic.posts.count, 'post') %>
                         </div>
                       </div>
                     </div>
