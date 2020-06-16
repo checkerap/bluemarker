@@ -49,7 +49,9 @@
               <span class="text-muted"><i class="icon-location"></i> <%= @user.city %>, <%= @user.country %></span><br>
             </div>
             <p>
+            <% if @user.bio.present? %>
               <%= markdown(@user.bio) %>
+            <% end %>
             </p>
             <div>
               <% if @social == true %>
