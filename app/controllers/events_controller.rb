@@ -38,7 +38,7 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
-    @speakers = User.with_role :speaker
+    @speakers = User.with_role(:speaker).order(:name => :asc)
     
     gon.event_start_date = Date.today
     gon.event_end_date = Date.today
@@ -46,7 +46,8 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @speakers = User.with_role :speaker
+    @speakers = User.with_role(:speaker).order(:name => :asc)
+    
     gon.event_start_date = @event.start_date
     gon.event_end_date = @event.end_date
   end

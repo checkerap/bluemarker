@@ -20,7 +20,7 @@ class TalksController < ApplicationController
     @event = Event.find params[:event]
     @talk.event = @event
     
-    @speakers = @talk.event.speakers
+    @speakers = @talk.event.speakers.order(:name => :asc)
     
     gon.talk_date = Date.today.strftime('%m/%d/%Y %I:%M')
     gon.talk_event_start_date   = @event.start_date
@@ -40,7 +40,7 @@ class TalksController < ApplicationController
   # GET /talks/1/edit
   def edit
     @event = @talk.event
-    @speakers = @talk.event.speakers
+    @speakers = @talk.event.speakers.order(:name => :asc)
     
     # Gon variables for calendar datetime
       date = @talk.date.utc.in_time_zone(@talk.timezone)

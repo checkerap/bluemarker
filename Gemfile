@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'image_processing', '~> 1.2'
 gem 'multi-select-rails'
 gem 'mailjet'
+gem 'rails_autolink'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
