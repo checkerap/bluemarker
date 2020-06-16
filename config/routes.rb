@@ -40,4 +40,5 @@ Rails.application.routes.draw do
   # Events
     # Event talks
     get '/events/:id/talks' => 'events#talks'
+    get '/events/:id/users' => 'events#users'
 end
