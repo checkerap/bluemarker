@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :papers, through: :talks
   
   validates :name, :email, :country, presence: true
+  validates :email, uniqueness: true
   
   def title_organization 
     parts = []
