@@ -34,6 +34,11 @@ class PostsController < ApplicationController
         @topic = Topic.find(@post.topic_id)
         @topic.last_post_id = @post.id
         @topic.save
+        
+        last_page = (@topic.posts.count / 5).ceil
+        puts "Last page is #{last_page}"
+        format.html { redirect_to "/topics/#{@post.topic_id}?page=#{last_page}", notice: 'Post was successfully updated.' }
+  
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }

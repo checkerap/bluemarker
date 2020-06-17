@@ -128,10 +128,11 @@
 <!--end of tabs content-->
 
 <script type="text/javascript">
+var $ = jQuery;
 var currentDate = new Date();
 
   // Talks
-if (gon !== undefined && gon.talk_event_start_date) {
+if (gon.talk_event_start_date) {
   // var talk_date = new Date(gon.talk_date)
   var talk_date = gon.talk_date
   // var talk_date_utc = talk_date.toUTCString(); 

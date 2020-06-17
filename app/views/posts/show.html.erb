@@ -1,19 +1,43 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
-
-<p>
-  <strong>Text:</strong>
-  <%= @post.text %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @post.user %>
-</p>
-
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<section class="space-sm">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-12 col-md-12">
+        <div class="card">
+          <ul class="list-group list-group-flush list-group-comments">
+            <li class="list-group-item">
+              <div class="media">
+                <a href="/users/<%= @post.user.id %>" class="mr-2">
+                  <%= render 'topics/user_image', :user => @post.user, :image_classes => 'avatar avatar-sm' %>
+                </a>
+                <!--<img alt="Image" src="/img/avatar-female-2.jpg" class="avatar avatar-sm">-->
+                <div class="media-body">
+                  <div class="mb-2">
+                    <a href="/users/<%= @post.user.id %>">
+                      <span class="h6 mb-0"><%= @post.user.name %></span>
+                    </a>
+                    <span class="text-muted"><%= @post.user.title_organization %></span>
+                  </div>
+                  <p>
+                    <%= auto_link(markdown(@post.text), :html => { :target => '_blank' }) %>
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <small class="text-muted">
+                      <% if current_user %>
+                        <%= @post.created_at.utc.in_time_zone(current_user.timezone).strftime("%-d %B %Y • %I:%M %p") %>
+                      <% else %>
+                        <%= @post.created_at.strftime("%-d %B %Y • %I:%M %p") %>
+                      <% end %>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>       
+        </div>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>

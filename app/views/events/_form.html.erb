@@ -135,9 +135,11 @@
 
 <script type="text/javascript">
   // Events
+/* global jQuery */
+var $ = jQuery;
 var currentDate = new Date();
 
-if (gon !== undefined && gon.event_start_date) {
+if (gon.event_start_date) {
   var event_start_date = new Date(gon.event_start_date)
   var event_end_date = new Date(gon.event_end_date)
   
