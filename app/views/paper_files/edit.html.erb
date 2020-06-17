@@ -5,13 +5,9 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a>
           </li>
-          <li class="breadcrumb-item"><a href="/events">Events</a>
+          <li class="breadcrumb-item"><a href="/papers/<%= @paper_file.paper.id %>"><%= @paper_file.paper.title %></a>
           </li>
-          <li class="breadcrumb-item"><a href="/events/<%= @paper.talk.event.id %>"><%= @paper.talk.event.title %></a>
-          </li>
-          <li class="breadcrumb-item"><a href="/talks/<%= @paper.talk.id %>"><%= @paper.talk.title %></a>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">Edit Paper</li>
+          <li class="breadcrumb-item active" aria-current="page">New File</li>
         </ol>
       </div>
       <!--end of col-->
