@@ -6,7 +6,9 @@
           <%= title %>
         </span>
       </div>
-      <a href="/events/<%= event.id %>/users">View all ›</a>
+      <% unless view_all %>
+        <a href="/events/<%= event.id %>/users">View all ›</a>
+      <% end %>
     </div>
     <div class="card-body">
       <ul class="list-unstyled list-spacing-sm">

@@ -320,7 +320,9 @@
           </ul>
         </div>
         
-        <%= render 'events/speakers_card', :speakers => @event.speakers.limit(10), :event => @event, title: 'Speakers' %>
+        <%= render 'events/speakers_card', :view_all => false, 
+          :speakers => @event.speakers.limit(10), 
+          :event => @event, title: 'Speakers' %>
 
       </div>
       <!--end of col-->
