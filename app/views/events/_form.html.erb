@@ -37,7 +37,7 @@
             <div class="col-12">
               <div class="form-group">
                 <label for="about-me">Summary:</label>
-                <%= form.text_area :summary, class: "form-control form-control-lg" %>
+                <%= form.text_area :summary, class: "form-control form-control-lg markdown-editor" %>
                 <!--<textarea class="form-control form-control-lg" name="profileBio" rows="4" id="about-me"></textarea>-->
               </div>
             </div>
@@ -133,3 +133,24 @@
 </div>
 <!--end of tabs content-->
 
+<script type="text/javascript">
+  // Events
+var currentDate = new Date();
+
+if (gon !== undefined && gon.event_start_date) {
+  var event_start_date = new Date(gon.event_start_date)
+  var event_end_date = new Date(gon.event_end_date)
+  
+  $('input[name="start_date_select"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: false,
+    startDate: event_start_date,
+  });
+
+  $('input[name="end_date_select"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: false,
+    startDate: event_end_date,
+  });
+}
+</script>

@@ -53,13 +53,13 @@
         <% end %>
         
         <article>
-          <%= markdown(@talk.description) %>
+          <%= auto_link(markdown(@talk.description), :html => { :target => '_blank' }) %>
         </article>
         <hr>
         
         <h5>Live video</h5>
           <% if @talk.live_video_link.present? %>
-            <p><%= link_to @talk.live_video_link, @talk.live_video_link %></p>
+            <p><%= link_to @talk.live_video_link, @talk.live_video_link, target: "_blank" %></p>
           <% else %>
             <p>No live video link available yet</p>
           <% end %>
