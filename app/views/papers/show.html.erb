@@ -40,7 +40,7 @@
     <div class="row justify-content-between">
       <div class="col-12 col-md-8">
         <article>
-          <%= markdown(@paper.description) %>
+          <%= auto_link(markdown(@paper.description), :html => { :target => '_blank' }) %>
         </article>
         <hr>
         

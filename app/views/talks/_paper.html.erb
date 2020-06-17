@@ -3,7 +3,7 @@
     <h4>
       <%= link_to paper.title, paper_path(paper) %>
     </h4>
-    <p><%= truncate(markdown(paper.description), length: 255) %></p>
+    <p><%= truncate(strip_tags(markdown(paper.description)), length: 255) %></p>
     <%= link_to 'view more', paper_path(paper) %>
   </div>
   
