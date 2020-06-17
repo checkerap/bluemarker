@@ -41,9 +41,7 @@
           <thead>
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <!--<th scope="col">Title</th>-->
-              <th scope="col"></th>
+              <th scope="col">Title</th>
             </tr>
           </thead>
           <tbody>
@@ -52,19 +50,18 @@
             <tr class="bg-white">
               <th scope="row">
                 <div class="media align-items-center">
-                  <%= render 'user_image', :user => user, :image_classes => 'avatar' %>
+                  <%= link_to "/users/#{user.id}", :class => 'media-left mr-2' do %>
+                    <%= render 'user_image', :user => user, :image_classes => 'avatar' %>
+                  <% end %>
                   <div class="media-body">
-                    <span class="h6 mb-0"><%= user.name %>
-                      <% if user.title.present? %>
-                       <span class="badge badge-secondary"> <%= user.title %></span>
-                      <% end %>
-                    </span>
-                    <span class="text-muted"><a href="/users/<%= user.id %>">Show details</a></span>
+                    <%= link_to "/users/#{user.id}" do %>
+                      <span class="h6 mb-0"><%= user.name %><br />
+                     <span class="text-muted">Show details</span>
+                    <% end %>
                   </div>
                 </div>
               </th>
-              <td><%= user.email %></td>
-              <!--<td><%= user.title %></td>-->
+              <td><%= user.title_organization %></td>
             </tr>
             <tr class="table-divider">
               <th></th>
