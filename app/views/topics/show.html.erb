@@ -60,41 +60,6 @@
     <div class="row justify-content-between">
       <div class="col-12 col-md-12">
         <div class="card">
-          <% if current_user %>
-          <div class="card-header bg-secondary d-flex justify-content-between">
-            <button class="btn btn-secondary" type="button" data-target="#comment-reply" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Post a reply</button>
-          </div>
-          
-          
-          <div class="collapse" id="comment-reply">
-            <%= form_with(model: @post_new, local: true, class: "card-body") do |form| %>
-              <% if @post_new.errors.any? %>
-                <div id="error_explanation">
-                  <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-            
-                  <ul>
-                  <% @post_new.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                  <% end %>
-                  </ul>
-                </div>
-              <% end %>
-              
-              <div class="form-group">
-                <%= form.text_area :text, class: "form-control from-control-lg markdown-editor", placeholder: "Type your reply here", rows: "5" %>
-              </div>
-            
-              <%= form.hidden_field :user_id, :value => current_user.id %>
-              <%= form.hidden_field :topic_id, :value => @topic.id %>
-            
-              <div class="d-flex align-items-center">
-                <button type="submit" class="btn btn-success mr-3">Submit reply</button>
-                <a href="#comment-reply" class="text-small text-muted" data-toggle="collapse" aria-expanded="true" aria-controls="comment-reply">Cancel</a>
-              </div>
-            <% end %>
-          </div>
-          <% end %>
-          
           <ul class="list-group list-group-flush list-group-comments">
             
             <% if @posts.present? %>
@@ -111,11 +76,26 @@
                           <span class="h6 mb-0"><%= post.user.name %></span>
                         </a>
                         <span class="text-muted"><%= post.user.title_organization %></span>
+                        <!--<span class="text-muted">Making awesome products</span>-->
                       </div>
+                      
+                      <% if post.post %>
+                        <blockquote>
+                          <div><strong class="text-muted"><%= post.post.user.name %></strong></div>
+                          <div class="text-muted">
+                            <%= auto_link(markdown(post.post.text), :html => { :target => '_blank' }) %>
+                          </div>
+                        </blockquote>
+                      <% end %>
+                      
                       <p>
                         <%= auto_link(markdown(post.text), :html => { :target => '_blank' }) %>
                       </p>
                       <div class="d-flex align-items-center">
+                        <div class="mr-2">
+                          <a class="btn btn-sm btn-outline-primary" href="/topics/<%= post.topic.id %>?post=<%= post.id %>&page=<%= params[:page] %>">Reply</a>
+                        </div>
+                        
                         <small class="text-muted">
                           <% if current_user %>
                             <%= post.created_at.utc.in_time_zone(current_user.timezone).strftime("%-d %B %Y • %I:%M %p") %>
@@ -134,7 +114,7 @@
                           
                                 <ul>
                                 <% post.errors.full_messages.each do |message| %>
-                                  <li><%= message %></li>
+                                  <li><%= auto_link(message) %></li>
                                 <% end %>
                                 </ul>
                               </div>
@@ -157,10 +137,6 @@
                       <div class="mt-2">
                         <% if current_user.present? and (current_user.id == post.user_id or current_user.has_role? :organizer) %>
                           <div class="mr-2">
-                            <% if current_user.id != post.user.id %>
-                              <button class="btn btn-sm btn-primary" type="button" data-target="#comment-reply-<%= post.id %>" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Edit</button>
-                            <% end %>
-                            
                             <button class="btn btn-sm btn-primary" type="button" data-target="#comment-reply-<%= post.id %>" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Edit</button>
                             <%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-primary" %>
                           </div>
@@ -172,11 +148,29 @@
               <% end %>
             <% end %>                    
           
+          <% if @reply.present? %>
+          <script type="text/javascript">
+            jQuery(document).ready(function(){
+              jQuery("html, body").animate({ scrollTop: jQuery('#comment-reply-second').offset().top });
+            });
+          </script>
+          <% end %>
+          
           <% if current_user %>
           <div class="card-header bg-secondary d-flex justify-content-between">
             <button class="btn btn-secondary" type="button" data-target="#comment-reply-second" data-toggle="collapse" aria-expanded="false" aria-controls="comment-reply">Post a reply</button>
           </div>
-          <div class="collapse" id="comment-reply-second">
+          <div class="collapse <% if @reply.present? %>show<% end %>" id="comment-reply-second">
+            <% if @reply.present? %>
+              <div class="p-3">
+              <div class="text-muted mb-1">Replying to:</div>
+              <div><strong><%= @reply.user.name %></strong></div>
+              <div>
+                <%= auto_link(markdown(@reply.text), :html => { :target => '_blank' }) %>
+              </div>
+              </div>
+            <% end %>
+            
             <%= form_with(model: @post_new, local: true, class: "card-body") do |form| %>
               <% if @post_new.errors.any? %>
                 <div id="error_explanation">
@@ -196,7 +190,10 @@
             
               <%= form.hidden_field :user_id, :value => current_user.id %>
               <%= form.hidden_field :topic_id, :value => @topic.id %>
-            
+              
+              <% if @reply.present? %>  
+                <%= form.hidden_field :post_id, :value => @reply.id %>
+              <% end %>
               <div class="d-flex align-items-center">
                 <button type="submit" class="btn btn-success mr-3">Submit reply</button>
                 <a href="#comment-reply-second" class="text-small text-muted" data-toggle="collapse" aria-expanded="true" aria-controls="comment-reply">Cancel</a>

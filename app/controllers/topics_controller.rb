@@ -12,8 +12,12 @@ class TopicsController < ApplicationController
   def show
     @post_new = Post.new
     @posts = Post.where(topic_id: @topic.id).order(:created_at).page params[:page]
+  
+    if params[:post].present?
+      @reply = Post.find(params[:post])
+    end
   end
-
+  
   # GET /topics/new
   def new
     @topic = Topic.new

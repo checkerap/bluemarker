@@ -24,3 +24,8 @@
 .ms-container .ms-list {
   height: 400px;
 }
+
+blockquote {
+  border-left: 0.5rem solid #e9ecef;
+  padding-left: 0.5rem;
+}
