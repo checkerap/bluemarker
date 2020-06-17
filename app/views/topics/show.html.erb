@@ -111,10 +111,9 @@
                           <span class="h6 mb-0"><%= post.user.name %></span>
                         </a>
                         <span class="text-muted"><%= post.user.title_organization %></span>
-                        <!--<span class="text-muted">Making awesome products</span>-->
                       </div>
                       <p>
-                        <%= markdown(post.text) %>
+                        <%= auto_link(markdown(post.text), :html => { :target => '_blank' }) %>
                       </p>
                       <div class="d-flex align-items-center">
                         <small class="text-muted">
@@ -135,7 +134,7 @@
                           
                                 <ul>
                                 <% post.errors.full_messages.each do |message| %>
-                                  <li><%= auto_link(message, :html => { :target => '_blank' }) %></li>
+                                  <li><%= message %></li>
                                 <% end %>
                                 </ul>
                               </div>
