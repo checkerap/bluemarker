@@ -141,7 +141,7 @@
                             <% end %>
                             
                             <div class="form-group">
-                              <%= form.text_area :text, class: "form-control from-control-lg", placeholder: "Type your reply here", rows: "5" %>
+                              <%= form.text_area :text, class: "form-control from-control-lg markdown-editor", placeholder: "Type your reply here", rows: "5" %>
                             </div>
                           
                             <div class="d-flex align-items-center">
@@ -187,7 +187,7 @@
               <% end %>
               
               <div class="form-group">
-                <%= form.text_area :text, class: "form-control from-control-lg", placeholder: "Type your reply here markdown-editor", rows: "5" %>
+                <%= form.text_area :text, class: "form-control from-control-lg markdown-editor", placeholder: "Type your reply here", rows: "5" %>
               </div>
             
               <%= form.hidden_field :user_id, :value => current_user.id %>

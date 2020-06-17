@@ -28,17 +28,14 @@ class PostsController < ApplicationController
     
     respond_to do |format|
       if @post.save
-        format.html { redirect_to "/topics/#{@post.topic_id}", notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
-          
-        @topic = Topic.find(@post.topic_id)
-        @topic.last_post_id = @post.id
+        @topic = @post.topic
+        @topic.last_post = @post
         @topic.save
         
-        last_page = (@topic.posts.count / 5).ceil
-        puts "Last page is #{last_page}"
-        format.html { redirect_to "/topics/#{@post.topic_id}?page=#{last_page}", notice: 'Post was successfully updated.' }
-  
+        posts_count = Post.where(:topic => @topic).count
+        last_page = (posts_count / 5.to_f).ceil
+
+        format.html { redirect_to topic_path(@topic, :foo => "lala", :page => last_page) }
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }

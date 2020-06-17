@@ -4,7 +4,12 @@ var $ = jQuery;
 $('.multiselect').multiSelect();
 
 $(document).ready(function(){
-  if ($('.markdown-editor').length) {
-  new SimpleMDE({ element: $('.markdown-editor')[0], toolbar: ["bold", "italic", "|", "unordered-list", "ordered-list", "|", "preview"], });
-  }
+  $('.markdown-editor').each(function(el){
+    // let editor = new SimpleMDE({ element: el[0], toolbar: ["bold", "italic", "|", "unordered-list", "ordered-list", "|", "preview"], });
+  
+    var simplemde = new SimpleMDE({
+      element: this,
+      toolbar: ["bold", "italic", "|", "unordered-list", "ordered-list", "|", "preview"]
+    });
+  });
 })

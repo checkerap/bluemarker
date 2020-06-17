@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>A Simple Responsive HTML Email</title>
+  <style type="text/css">
+  body {margin: 0; padding: 0; min-width: 100%!important;}
+  img {height: auto;}
+  .content {width: 100%; max-width: 600px;}
+  .header {padding: 40px 30px 20px 30px;}
+  .innerpadding {padding: 30px 30px 30px 30px;}
+  .borderbottom {border-bottom: 1px solid #f2eeed;}
+  .subhead {font-size: 15px; color: #ffffff; font-family: sans-serif; letter-spacing: 10px;}
+  .h1, .h2, .bodycopy {color: #153643; font-family: sans-serif;}
+  .h1 {font-size: 33px; line-height: 38px; font-weight: bold;}
+  .h2 {padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold;}
+  .bodycopy {font-size: 16px; line-height: 22px;}
+  .button {text-align: center; font-size: 18px; font-family: sans-serif; font-weight: bold; padding: 0 30px 0 30px;}
+  .button a {color: #ffffff; text-decoration: none;}
+  .footer {padding: 20px 30px 15px 30px;}
+  .footercopy {font-family: sans-serif; font-size: 14px; color: #ffffff;}
+  .footercopy a {color: #ffffff; text-decoration: underline;}
+
+  @media only screen and (max-width: 550px), screen and (max-device-width: 550px) {
+  body[yahoo] .hide {display: none!important;}
+  body[yahoo] .buttonwrapper {background-color: transparent!important;}
+  body[yahoo] .button {padding: 0px!important;}
+  body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!important;}
+  body[yahoo] .unsubscribe {display: block; margin-top: 20px; padding: 10px 50px; background: #2f3942; border-radius: 5px; text-decoration: none!important; font-weight: bold;}
+  }
+
+  /*@media only screen and (min-device-width: 601px) {
+    .content {width: 600px !important;}
+    .col425 {width: 425px!important;}
+    .col380 {width: 380px!important;}
+    }*/
+
+  </style>
+</head>
+
+<body yahoo bgcolor="#f6f8f1">
+<table width="100%" bgcolor="#f6f8f1" border="0" cellpadding="0" cellspacing="0">
+<tr>
+  <td>
+    <!--[if (gte mso 9)|(IE)]>
+      <table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td>
+    <![endif]-->
+    <table bgcolor="#ffffff" class="content" align="center" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td bgcolor="#c7d8a7" class="header">
+          <table width="70" align="left" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td height="70" style="padding: 0 20px 20px 0;">
+                <img class="fix" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/210284/icon.gif" width="70" height="70" border="0" alt="" />
+              </td>
+            </tr>
+          </table>
+          <!--[if (gte mso 9)|(IE)]>
+            <table width="425" align="left" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+          <![endif]-->
+          <table class="col425" align="left" border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 425px;">
+            <tr>
+              <td height="70">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td class="h1" style="padding: 5px 0 0 0;">
+                      EDEN 2020 Annual Conference
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <!--[if (gte mso 9)|(IE)]>
+                </td>
+              </tr>
+          </table>
+          <![endif]-->
+        </td>
+      </tr>
+      <tr>
+        <td class="innerpadding">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="h2">
+                Dear <%= @user.name %>
+              </td>
+            </tr>
+            <tr>
+              <td class="bodycopy">
+                Welcome to the EDEN 2020 Annual Conference, which is organised by EDEN and the Politehnica University of Timisoara, Romania, virtually from 22-24 June 2020!
+                <br/><br/>
+                The host, Politehnica University of Timisoara, has developed an application, the UPT Conference Tool, for managing virtual conferences: <a href="https://conference.upt.ro/">https://conference.upt.ro/</a>
+                <br/>
+                The EDEN 2020 event in the UPT Conference Tool is here: <a href="https://conference.upt.ro/events/2">https://conference.upt.ro/events/2</a>
+                <br/><br/>
+
+                To access the EDEN 2020 Conference area, here: <a href="https://conference.upt.ro/events/2"></a> please use these:
+                <br/>
+                Email: <%= @user.email %>
+                <br/>
+                Password: eden2020
+                <br/>
+                on the Sign-in page <a href="https://conference.upt.ro/users/sign_in">https://conference.upt.ro/users/sign_in</a>
+                <br/><br/>
+
+                In the EDEN 2020 Event you will be able to see the full programme, to access papers and presentations, following the schedule of Day 1 - 22 June 2020, Day 2 - 23 June 2020, Day 3 - 24 June 2020.  Please note that times provided in the programme are according to the Central European Summer Time (CEST) Timezone (UTC+02:00).
+                <br/>
+                To have a real time, adjusted to your timezone, for each session you need to select your ‘Timezone’ by accessing ‘My Account’ and then ‘Edit’.
+                <br/>
+                In each Session you will be able to find the link to the Live Conference Plenaries and sessions (this will be available from Sunday 21 June 2020). For the Live Conference we will be using the video conference application Zoom, provided by the host, Politehnica University of Timisoara.
+                <br/><br/>
+
+                If you are a speaker, in your paper/workshop/session area you will be able to upload your files (paper, presentation slides, video recording), so other participants can see them and interact with you.
+                <br/><br/>
+
+                Please join us in the networking and social events, during coffee and lunch breaks and on Monday 22 June for the Timisoara STE(A)M, Timisoara Live Virtual Guided Tour and on Tuesday 23 June for Creative Timisoara!
+                <br/><br/>
+
+                In the Forum area you will be able to interact with the other participants and discuss current topics.
+                <br/><br/>
+
+                You can find more information in the EDEN 2020 Conference website, such as guidelines and tutorials: https://www.eden-online.org/2020_timisoara/join-conference/
+                <br/><br/>
+
+
+                If you have any issues or problems please contact us at <timisoara@eden-online.org>. Please do not reply to this email as it is sent from a no-reply address!
+
+
+                Join us for EDEN 2020 in Timisoara, Romania!
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="footer" bgcolor="#44525f">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" class="footercopy">
+                EDEN 2020 Conference Committee<br/><br/>
+
+                <a href="https://conference.upt.ro/">https://conference.upt.ro/</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <!--[if (gte mso 9)|(IE)]>
+          </td>
+        </tr>
+    </table>
+    <![endif]-->
+    </td>
+  </tr>
+</table>
+</body>
+</html>
