@@ -62,23 +62,23 @@
                   <div class="dropdown-menu dropdown-menu-sm" aria-labelledby="dropdownMenuButton">
                     
                     <% if @user.link_website.present? %>
-                      <a class="dropdown-item" href="https://<%= @user.link_website %>">Website</a>
+                      <a class="dropdown-item" target="_blank" href="<%= @user.link_website %>">Website</a>
                     <% end %>
                     
                     <% if @user.link_youtube.present? %>
-                      <a class="dropdown-item" href="https://<%= @user.link_youtube %>">YouTube</a>
+                      <a class="dropdown-item" target="_blank" href="<%= @user.link_youtube %>">YouTube</a>
                     <% end %>
                     
                     <% if @user.link_facebook.present? %>
-                      <a class="dropdown-item" href="https://<%= @user.link_facebook %>">Facebook</a>
+                      <a class="dropdown-item" target="_blank" href="<%= @user.link_facebook %>">Facebook</a>
                     <% end %>
                     
                     <% if @user.link_linkedin.present? %>
-                      <a class="dropdown-item" href="https://<%= @user.link_linkedin %>">Linkedin</a>
+                      <a class="dropdown-item" target="_blank"  href="<%= @user.link_linkedin %>">Linkedin</a>
                     <% end %>
                     
                     <% if @user.link_twitter.present? %>
-                      <a class="dropdown-item" href="https://<%= @user.link_twitter %>">Twitter</a>
+                      <a class="dropdown-item" target="_blank"  href="<%= @user.link_twitter %>">Twitter</a>
                     <% end %>
                     
                   </div>
