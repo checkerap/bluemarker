@@ -62,9 +62,11 @@ class PostsController < ApplicationController
   def destroy
     topic = @post.topic 
     
-    if @post.id == topic.last_post.id
-      @post.topic.last_post = nil
-      @post.topic.save 
+    if topic.last_post
+      if @post.id == topic.last_post.id
+        @post.topic.last_post = nil
+        @post.topic.save 
+      end
     end
     
     @post.destroy
