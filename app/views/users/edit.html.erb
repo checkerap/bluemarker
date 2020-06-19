@@ -71,8 +71,8 @@
               <div class="form-group">
                 <label>User role:</label>
                   <select class="form-control" name="user_role" id="exampleFormControlSelect1">
-                    <option value="attendee">Attendee</option>
-                    <option value="speaker">Speaker</option>
+                    <option value="attendee" <%= (@user.has_role?(:attendee)) ? 'selected="true"' : '' %>>Attendee</option>
+                    <option value="speaker" <%= (@user.has_role?(:speaker)) ? 'selected="true"' : '' %> >Speaker</option>
                   </select>
               </div>
             </div>

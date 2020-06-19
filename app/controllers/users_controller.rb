@@ -62,8 +62,10 @@ class UsersController < ApplicationController
       end
       
       if params[:user_role] == "speaker"
+        @user.remove_role :attendee
         @user.add_role :speaker
       else
+        @user.remove_role :speaker
         @user.add_role :attendee
       end
       
