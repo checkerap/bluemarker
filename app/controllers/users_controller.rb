@@ -89,15 +89,23 @@ class UsersController < ApplicationController
     if upload.present? 
       @users = SmarterCSV.process(upload.tempfile, options={:force_utf8 => true})
       @users.each do |user|
-        new_user = User.create(name: user[:name], email: user[:email], password: "eden2020", organization: user[:institution], country: user[:country])
+        existing_user = User.find_by :email => user[:email]
+        if existing_user
+          user_to_update = existing_user
+        else
+          user_to_update = User.create(name: user[:name], email: user[:email], password: "eden2020", organization: user[:institution], country: user[:country])
+        end
         
         p user[:role]
         if user[:role] == "Speaker"
-          new_user.add_role :speaker
+          user_to_update.remove_role :attendee
+          user_to_update.add_role :speaker
         elsif user[:role] == "Attendee"
-          new_user.add_role :attendee
+          user_to_update.remove_role :speaker
+          user_to_update.add_role :attendee
         end
       end
+      
       redirect_to "/users/upload", notice: "Users imported."
     else
       redirect_to "/users/upload", notice: "File not present."
