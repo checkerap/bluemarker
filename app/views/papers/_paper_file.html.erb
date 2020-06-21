@@ -8,7 +8,7 @@
   <div class="col-5 text-right">
     <% if paper_file.document.attached? %>
       <%= link_to 'download', url_for(paper_file.document), :target => 'blank', :class => 'btn btn-secondary' %>
-    <% else %>
+    <% else %> 
       <% if paper_file.video_url.blank? %>
       <span>no file present</span>
       <% end %>
