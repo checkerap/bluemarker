@@ -1,10 +1,14 @@
 <div class="row mb-2">
   <div class="col-8">
     <div><%= paper_file.title %></div>
-    <%= link_to paper_file.document.filename, url_for(paper_file.document), :target => 'blank' %>
+    <% if paper_file.document.attached? %>
+      <%= link_to paper_file.document.filename, url_for(paper_file.document), :target => 'blank' %>
+    <% end %>
   </div>
   <div class="col-3 text-right">
-    <%= link_to 'download', url_for(paper_file.document), :target => 'blank', :class => 'btn btn-secondary' %>
+    <% if paper_file.document.attached? %>
+      <%= link_to 'download', url_for(paper_file.document), :target => 'blank', :class => 'btn btn-secondary' %>
+    <% end %>
   </div>
   <div class="col-1 text-right">
     <% if current_user and (current_user.has_role?(:organizer) or 
