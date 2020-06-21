@@ -83,7 +83,7 @@ class PaperFilesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def paper_file_params
-      params.require(:paper_file).permit(:title, :description, :user_id, :paper_id, 
+      params.require(:paper_file).permit(:title, :description, :video_url, :user_id, :paper_id, 
       :document)
     end
     
