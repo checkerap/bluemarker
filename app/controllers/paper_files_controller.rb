@@ -1,5 +1,6 @@
 class PaperFilesController < ApplicationController
   before_action :set_paper_file, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /papers
   # GET /papers.json

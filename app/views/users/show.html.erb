@@ -107,9 +107,11 @@
             <li class="nav-item">
               <a class="nav-link" id="followers-tab" data-toggle="tab" href="#followers" role="tab" aria-controls="followers" aria-selected="false">Talks</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="false">Papers</a>
-            </li>
+            <% if current_user %>
+              <li class="nav-item">
+                <a class="nav-link" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="false">Papers</a>
+              </li>
+            <% end %>
           </ul>
         </div>
         <!--end of col-->
@@ -149,16 +151,18 @@
       </div>
     </div>
     
-    <div class="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
-      <div class="container">
-        <% if @user.papers.size > 0 %>
-          <% @user.papers.each do |paper| %>
-            <%= render 'talks/paper', paper: paper %>
+    <% if current_user %>
+      <div class="tab-pane fade" id="groups" role="tabpanel" aria-labelledby="groups-tab">
+        <div class="container">
+          <% if @user.papers.size > 0 %>
+            <% @user.papers.each do |paper| %>
+              <%= render 'talks/paper', paper: paper %>
+            <% end %>
+          <% else %>
+            <p>No papers to display.</p>
           <% end %>
-        <% else %>
-          <p>No papers to display.</p>
-        <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 </section>
