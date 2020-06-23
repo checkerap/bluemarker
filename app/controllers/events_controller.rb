@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :talks, :users]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :talks, :speakers, :attendees]
   before_action :authorize_organizer, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /events
@@ -39,6 +39,7 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @speakers = User.with_role(:speaker).order(:name => :asc)
+    @attendees = User.with_role(:attendee).order(:name => :asc)
     
     gon.event_start_date = Date.today
     gon.event_end_date = Date.today
@@ -47,6 +48,7 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     @speakers = User.with_role(:speaker).order(:name => :asc)
+    @attendees = User.with_role(:attendee).order(:name => :asc)
     
     gon.event_start_date = @event.start_date
     gon.event_end_date = @event.end_date
@@ -147,8 +149,12 @@ class EventsController < ApplicationController
     end
   end
   
-  def users
+  def speakers
     @speakers = @event.speakers
+  end
+  
+  def attendees
+    @attendees = @event.attendees
   end
   
   private
@@ -162,6 +168,6 @@ class EventsController < ApplicationController
       params.require(:event).permit(:title, :summary, :content, 
         :user_id, :start_date, :end_date, :image, 
         :category_id, :video, 
-        :speaker_ids => [])
+        :speaker_ids => [], :attendee_ids => [])
     end
 end

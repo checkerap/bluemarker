@@ -1,0 +1,81 @@
+<nav aria-label="breadcrumb" role="navigation" class="bg-primary text-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/events">Events</a>
+          </li>
+          <li class="breadcrumb-item"><a href="/events/<%= @event.id %>"><%= @event.title %></a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="">Speakers</li>
+        </ol>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</nav>
+<section>
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col">
+        <div class="media align-items-center">
+          <div class="media-body">
+            <div class="mb-3">
+              <h1 class="h2 mb-2"><%= @event.title %></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="flush-with-above">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover align-items-center table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Title</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <% @speakers.order(:name => :asc).each do |user| %>
+            <tr class="bg-white">
+              <th scope="row">
+                <div class="media align-items-center">
+                  <%= link_to "/users/#{user.id}", :class => 'media-left mr-2' do %>
+                    <%= render 'user_image', :user => user, :image_classes => 'avatar' %>
+                  <% end %>
+                  <div class="media-body">
+                    <%= link_to "/users/#{user.id}" do %>
+                      <span class="h6 mb-0"><%= user.name %><br />
+                     <span class="text-muted">Show details</span>
+                    <% end %>
+                  </div>
+                </div>
+              </th>
+              <td><%= user.title_organization %></td>
+            </tr>
+            <tr class="table-divider">
+              <th></th>
+              <td></td>
+            </tr>
+            <% end %>
+            
+          </tbody>
+        </table>
+      </div>
+      <!--end of col-->
+    </div>
+    <!--end of row-->
+  </div>
+  <!--end of container-->
+</section>
+<!--end of section-->

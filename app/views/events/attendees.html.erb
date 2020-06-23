@@ -9,7 +9,7 @@
           </li>
           <li class="breadcrumb-item"><a href="/events/<%= @event.id %>"><%= @event.title %></a>
           </li>
-          <li class="breadcrumb-item active" aria-current="">Users</li>
+          <li class="breadcrumb-item active" aria-current="">Attedees</li>
         </ol>
       </div>
       <!--end of col-->
@@ -46,7 +46,7 @@
           </thead>
           <tbody>
             
-            <% @speakers.order(:name => :asc).each do |user| %>
+            <% @attendees.order(:name => :asc).each do |user| %>
             <tr class="bg-white">
               <th scope="row">
                 <div class="media align-items-center">

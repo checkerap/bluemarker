@@ -117,7 +117,11 @@
         <%= render 'shared/speakers_card', :view_all => false, 
           :speakers => @event.speakers.limit(10), 
           :event => @event, title: 'Speakers' %>
-
+        
+        <%= render 'events/attedees_card', :view_all => false, 
+          :attendees => @event.attendees.limit(10), 
+          :event => @event, title: 'Attendees' %>
+        
       </div>
       <!--end of col-->
     </div>
