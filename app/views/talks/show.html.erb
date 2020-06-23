@@ -103,11 +103,23 @@
             <li class="list-group-item">
               <div class="d-flex justify-content-between">
                 <div><i class="icon-clock mr-1"></i> Time</div>
-                <% if current_user and @talk.timespan.present? %>
-                  <span><%= @talk.date.utc.in_time_zone(current_user.timezone).strftime("%I:%M %p") %> - <%= (@talk.date.utc + @talk.timespan.minutes).in_time_zone(current_user.timezone).strftime("%I:%M %p") %></span>
-                <% else %>
-                  <span><%= @talk.date.strftime("%I:%M %p") %></span>
-                <% end %>
+                <% 
+                  timezone_to_display = (current_user and current_user.timezone) ? current_user.timezone : @talk.timezone
+                %>
+                  <span>
+                    <%= @talk.date.utc.in_time_zone(timezone_to_display).strftime("%I:%M %p") %> 
+                    
+                    <% if @talk.timespan.present? %>
+                      - 
+                      <%= (@talk.date.utc + @talk.timespan.minutes).in_time_zone(timezone_to_display).strftime("%I:%M %p") %></span>
+                    <% end %>
+                  </span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div><i class="icon-clock mr-1"></i> Timezone</div>
+                <span><%= timezone_to_display %></span>
               </div>
             </li>
             <% end %>
