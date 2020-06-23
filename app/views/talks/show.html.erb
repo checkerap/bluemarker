@@ -57,6 +57,7 @@
         </article>
         <hr>
         
+        <% if current_user %>
         <h5>Live video</h5>
           <% if @talk.live_video_link.present? %>
             <p><%= link_to @talk.live_video_link, @talk.live_video_link, target: "_blank" %></p>
@@ -83,6 +84,7 @@
             <% end %>
           <% end %>
         </div>
+        <% end %>
       </div>
 
       <div class="col-12 col-md-4">
