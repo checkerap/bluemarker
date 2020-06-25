@@ -30,4 +30,15 @@ class User < ApplicationRecord
     
     parts.join(', ')
   end
+  
+  def self.to_csv
+    attributes = %w{name email}
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      all.each do |demo_request|
+        csv << demo_request.attributes.values_at(*attributes)
+      end
+    end
+  end
 end

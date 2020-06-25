@@ -151,10 +151,20 @@ class EventsController < ApplicationController
   
   def speakers
     @speakers = @event.speakers
+    
+    respond_to do |format|
+      format.html
+      format.csv { send_data @speakers.to_csv, filename: "speakers-#{Date.today}.csv" }
+    end
   end
   
   def attendees
     @attendees = @event.attendees
+    
+    respond_to do |format|
+      format.html
+      format.csv { send_data @attendees.to_csv, filename: "attendees-#{Date.today}.csv" }
+    end
   end
   
   private
