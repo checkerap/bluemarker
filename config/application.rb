@@ -25,7 +25,8 @@ module EventManager
     
     config.to_prepare do
       Devise::SessionsController.layout "account"
-      Devise::PasswordsController.layout "account"        
+      Devise::PasswordsController.layout "account" 
+      Devise::RegistrationsController.layout "account"  
     end
     
   end
