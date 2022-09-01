@@ -24,4 +24,4 @@ production:
   adapter: pg
   encoding: unicode
   pool: 30
-  url: <%= ENV['DOKKU_POSTGRES_AQUA_URL'] %>
+  url: <%= ENV['DATABASE_URL'] %>
